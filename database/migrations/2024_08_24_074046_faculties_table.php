@@ -11,8 +11,9 @@ class FacultiesTable extends Migration
             $table->id('id');
             $table->string('faculty_name');
             $table->unsignedBigInteger('parent_faculty')->nullable();
-            $table->unsignedBigInteger('created_by');
-            $table->unsignedBigInteger('updated_by');
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
+
             $table->timestamps();
 
             $table->foreign('parent_faculty')->references('id')->on('faculties')->onDelete('cascade');
