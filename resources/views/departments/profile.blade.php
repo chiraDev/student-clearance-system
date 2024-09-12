@@ -174,7 +174,7 @@
     }
 </style>
 
-@include('partials.nav')
+@include('partials.nav-management')
 
 <div class="profile-container">
     <div class="profile-header">
