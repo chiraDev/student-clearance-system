@@ -33,6 +33,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      - name: Fix permissions on remote directory
+        run: ssh -i /home/runner/aws_key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.AWS_INSTANCE_IP }} "sudo chown -R ubuntu:ubuntu /var/www/cms && sudo chmod -R 755 /var/www/cms"
+
       - name: Add Git Safe Directory
         run: ssh -i /home/runner/aws_key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.AWS_INSTANCE_IP }} "git config --global --add safe.directory /var/www/cms"
 
