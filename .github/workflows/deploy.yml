@@ -1,14 +1,11 @@
 name: Laravel Deployment
-
 on:
   push:
     branches:
       - main
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -21,6 +18,11 @@ jobs:
       - name: Install dependencies
         run: composer install --no-dev
 
+      - name: Create SSH key file from secret
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > /home/runner/aws_key.pem
+          chmod 600 /home/runner/aws_key.pem
+
       - name: Set up AWS CLI
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -28,18 +30,5 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      # Set up SSH agent and add the private SSH key for EC2 connection
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      # Add the EC2 host to known hosts to prevent host verification failure
-      - name: Add EC2 to known hosts
-        run: |
-          mkdir -p ~/.ssh/
-          ssh-keyscan -H ${{ secrets.AWS_INSTANCE_IP }} >> ~/.ssh/known_hosts
-
-      # Deploy to EC2 instance
       - name: Deploy to AWS EC2
-        run: ssh ubuntu@${{ secrets.AWS_INSTANCE_IP }} "cd /var/www/cms && git pull && composer install --no-dev && php artisan migrate --force && php artisan optimize"
+        run: ssh -i /home/runner/aws_key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.AWS_INSTANCE_IP }} "cd /var/www/cms && git pull && composer install --no-dev && php artisan migrate --force && php artisan optimize"
