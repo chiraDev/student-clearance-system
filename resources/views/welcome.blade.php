@@ -14,7 +14,7 @@
     @include('components.nav')
     <div class="center-container">
     <div class="form-wrapper">
-        <h2 class="form-title">Log in to your account</h2>
+        <h2 class="form-title">Log in to your account CMS KDU</h2>
         <h3 class="form-sub-title">Welcome to CMS</h3>
 
         <form method="POST" action="{{ route('login') }}">
