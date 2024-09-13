@@ -34,18 +34,24 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Fix permissions on remote directory
-        run: ssh -i /home/runner/aws_key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.AWS_INSTANCE_IP }} "sudo chown -R ubuntu:ubuntu /var/www/cms && sudo chmod -R 755 /var/www/cms"
+        run: |
+          ssh -i /home/runner/aws_key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.AWS_INSTANCE_IP }} << 'EOF'
+            sudo chown -R ubuntu:www-data /var/www/cms
+            sudo chmod -R 755 /var/www/cms
+            sudo chmod -R 775 /var/www/cms/storage /var/www/cms/bootstrap/cache
+          EOF
 
       - name: Add Git Safe Directory
-        run: ssh -i /home/runner/aws_key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.AWS_INSTANCE_IP }} "git config --global --add safe.directory /var/www/cms"
+        run: |
+          ssh -i /home/runner/aws_key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.AWS_INSTANCE_IP }} "git config --global --add safe.directory /var/www/cms"
 
       - name: Deploy to AWS EC2
         run: |
-          ssh -i /home/runner/aws_key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.AWS_INSTANCE_IP }} "
-            cd /var/www/cms && \
-            git reset --hard && \
-            git pull && \
-            composer install --no-dev && \
-            php artisan migrate --force && \
+          ssh -i /home/runner/aws_key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.AWS_INSTANCE_IP }} << 'EOF'
+            cd /var/www/cms
+            git reset --hard
+            git pull
+            composer install --no-dev
+            php artisan migrate --force
             php artisan optimize
-          "
+          EOF
