@@ -1,0 +1,57 @@
+name: Laravel Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+
+      - name: Install dependencies
+        run: composer install --no-dev
+
+      - name: Create SSH key file from secret
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > /home/runner/aws_key.pem
+          chmod 600 /home/runner/aws_key.pem
+
+      - name: Set up AWS CLI
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Fix permissions on remote directory
+        run: |
+          ssh -i /home/runner/aws_key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.AWS_INSTANCE_IP }} << 'EOF'
+            sudo chown -R ubuntu:www-data /var/www/cms
+            sudo chmod -R 755 /var/www/cms
+            sudo chmod -R 775 /var/www/cms/storage /var/www/cms/bootstrap/cache
+          EOF
+
+      - name: Add Git Safe Directory
+        run: |
+          ssh -i /home/runner/aws_key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.AWS_INSTANCE_IP }} "git config --global --add safe.directory /var/www/cms"
+
+      - name: Deploy to AWS EC2
+        run: |
+          ssh -i /home/runner/aws_key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.AWS_INSTANCE_IP }} << 'EOF'
+            cd /var/www/cms
+            git reset --hard
+            git pull
+            composer install --no-dev
+            php artisan migrate --force
+            php artisan optimize
+          EOF

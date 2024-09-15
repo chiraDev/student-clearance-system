@@ -51,7 +51,7 @@ class ClearanceController extends Controller
             }
         }
 
-        return view('clearance.department', [
+        return view('Clearance.department', [
             'applicationStatuses' => $applicationStatuses,
             'totalRequests' => $totalRequests,
             'isEnlistment' => $isEnlistment,
