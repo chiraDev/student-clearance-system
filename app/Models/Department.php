@@ -12,7 +12,7 @@ class Department extends Model
     protected $table = 'departments';
 
     protected $fillable = [
-        'dep_name','email', 'parent_department', 'created_by', 'updated_by'
+        'dep_name','email', 'parent_department', 'created_by', 'updated_by' ,'faculty_id' // Added faculty_id here
     ];
 
     public function parentDepartment()
@@ -43,4 +43,11 @@ class Department extends Model
     {
         return $this->hasMany(ApplicationStatus::class, 'department_id');
     }
+
+    // Relationship to the faculty
+    public function faculty()
+    {
+        return $this->belongsTo(Faculty::class, 'faculty_id');
+    }
+ 
 }
