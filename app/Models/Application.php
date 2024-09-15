@@ -46,7 +46,7 @@ class Application extends Model
     protected $table = 'applications';
 
     protected $fillable = [
-        'id', 'application_status', 'created_by', 'updated_by'
+        'id', 'user_name','application_status', 'created_by', 'updated_by'
     ];
 
     public function student()

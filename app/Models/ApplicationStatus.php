@@ -12,7 +12,7 @@ class ApplicationStatus extends Model
     protected $table = 'application_status';
 
     protected $fillable = [
-        'application_id', 'status', 'reason', 'department_id', 'updated_by'
+        'application_id', 'status', 'reason', 'department_id', 'updated_by' ,'rank'
     ];
 
     public function application()
