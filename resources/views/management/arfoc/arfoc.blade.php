@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container">
-    <h1>Welcome to the FDSS Dashboard</h1>
-    <p>This is where you can manage VC-related tasks.</p>
+    <h1>Welcome to the AR Dashboard</h1>
+    <p>This is where you can manage AR-related tasks.</p>
 
     <!-- Logout Link -->
     <a href="{{ route('logout') }}" 
