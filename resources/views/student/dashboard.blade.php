@@ -64,6 +64,8 @@
                                 <th>Status</th>
                                 <th>Reason</th>
                                 <th>Updated by</th>
+                                <th>Rank</th>
+                                <th>Updated at</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -81,6 +83,8 @@
         </td>
         <td>{{ $status->reason }}</td>
         <td>{{ $status->updater->user_name }}</td>
+        <td>{{ $status->rank }}</td>
+        <td>{{ $status->updated_at }}</td>
     </tr>
 @endforeach
 
