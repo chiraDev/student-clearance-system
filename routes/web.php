@@ -55,7 +55,7 @@ Route::post('/users/send-activation-emails', [UserController::class, 'sendActiva
     Route::get('/vc/dashboard', function() {
         return view('management.vc.vc');
     })->name('vc.vc');
-    
+     
     Route::get('/helpdesk/dashboard', function() {
         return view('management.helpdesk.helpdesk');
     })->name('helpdesk.helpdesk');
