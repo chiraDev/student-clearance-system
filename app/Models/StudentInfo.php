@@ -35,4 +35,8 @@ class StudentInfo extends Model
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
+    public function application()
+    {
+        return $this->hasOne(Application::class, 'student_id');
+    }
 }

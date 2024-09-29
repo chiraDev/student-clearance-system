@@ -413,48 +413,52 @@
             <li class="application-item">
                 <div class="application-header">
                     <h5>Application #{{ $status->application_id }}</h5>
-                    @php
-                        $badgeClass = $status->status === 'APPROVED' ? 'status-approved' : 'status-rejected';
-                    @endphp
-                    <span class="status-badge {{ $badgeClass }}">{{ $status->status }}</span>
+                    @if(auth()->user()->dep_id != 14)
+                        @php
+                            $badgeClass = $status->status === 'APPROVED' ? 'status-approved' : 'status-rejected';
+                        @endphp
+                        <span class="status-badge {{ $badgeClass }}">{{ $status->status }}</span>
+                    @endif
                 </div>
                 
                 <div class="application-details">
                     <p><strong>User:</strong> {{ $status->application->user->user_name }}</p>
                     <p><strong>Registration Number:</strong> {{ $status->application->user->reg_no }}</p>
-                    @if($status->status === 'REJECTED')
-                        <p><strong>Reason:</strong> {{ $status->reason ?? 'N/A' }}</p>
+                    @if(auth()->user()->dep_id != 14)
+                        @if($status->status === 'REJECTED')
+                            <p><strong>Reason:</strong> {{ $status->reason ?? 'N/A' }}</p>
+                        @endif
+                        <p><strong>Status:</strong> {{ $status->status }}</p>
                     @endif
-                    <p><strong>Status:</strong> {{ $status->status }}</p>
                     <p><strong>Last Updated:</strong> {{ $status->updated_at->format('Y-m-d H:i:s') }}</p>
                 </div>
                 <div class="button-group">
-                    @if (!$isEnlistment || ($isEnlistment && $status->allOthersApproved))
-                    <form action="{{ route('Clearance.update', ['departmentId' => auth()->user()->dep_id, 'statusId' => $status->id]) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <input type="hidden" name="status" value="APPROVED">
-                        <button type="submit" class="btn btn-approve">Approve</button>
-                        
-                        @if(auth()->user()->dep_id == 3) {{-- Assuming 7 is the dep_id for VC department --}}
-                            <div class="warning-message mt-2 text-danger">
-                                <small><strong>Warning:</strong> Please check the KDU ID before giving approval.</small>
+                    @if(auth()->user()->dep_id != 14)
+                        @if (!$isEnlistment || ($isEnlistment && $status->allOthersApproved))
+                            <form action="{{ route('Clearance.update', ['departmentId' => auth()->user()->dep_id, 'statusId' => $status->id]) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <input type="hidden" name="status" value="APPROVED">
+                                <button type="submit" class="btn btn-approve">Approve</button>
+                                
+                                @if(auth()->user()->dep_id == 4)
+                                    <div class="warning-message mt-2 text-danger">
+                                        <small><strong>Warning:</strong> Please check the KDU ID before giving approval.</small>
+                                    </div>
+                                @endif
+                            </form>
+                        @else
+                            <div class="approval-container">
+                                <button class="btn btn-approve" disabled>Approve</button>
+                                <small class="text-danger">Departments are not completed</small>
                             </div>
                         @endif
-                    </form>
-            @else
-            <div class="approval-container">
-                <button class="btn btn-approve" disabled>Approve</button>
-                <small class="text-danger">Departments are not completed</small>
-            </div>
-            @endif
-                    
-                    <!-- <button type="button" class="btn btn-decline" onclick="declineApplication({{ $status->id }})">Decline</button> -->
-                    <!-- <button type="button" class="btn btn-decline" onclick="declineApplication({{ $status->id }})">Decline</button> -->
-                    <button type="button" class="btn btn-decline" onclick="declineApplication('{{ $status->id }}')">Decline</button>
+                        
+                        <button type="button" class="btn btn-decline" onclick="declineApplication('{{ $status->id }}')">Decline</button>
+                    @endif
 
                     @php
-                        $hideShowMoreButton = in_array(auth()->user()->dep_id, [3, 4, 5, 6, 7, 9, 10, 12, 13]);
+                        $hideShowMoreButton = in_array(auth()->user()->dep_id, [3,31,32,33,34,35,36,37,38,39,40, 4, 5, 6, 7, 9, 10, 12, 13]);
                     @endphp
 
                     @if(!$hideShowMoreButton)
@@ -469,43 +473,44 @@
         @endforelse
     </ul>
     
-    <script>
-    function declineApplication(statusId) {
-        var reason = prompt("Please enter the reason for declining:");
-        if (reason != null && reason != "") {
-            var form = document.createElement('form');
-            form.method = 'POST';
-            form.action = "{{ route('Clearance.update', ['departmentId' => auth()->user()->dep_id, 'statusId' => ':statusId']) }}".replace(':statusId', statusId);
-            
-            var csrfToken = document.createElement('input');
-            csrfToken.type = 'hidden';
-            csrfToken.name = '_token';
-            csrfToken.value = "{{ csrf_token() }}";
-            form.appendChild(csrfToken);
-    
-            var methodField = document.createElement('input');
-            methodField.type = 'hidden';
-            methodField.name = '_method';
-            methodField.value = 'PUT';
-            form.appendChild(methodField);
-    
-            var statusField = document.createElement('input');
-            statusField.type = 'hidden';
-            statusField.name = 'status';
-            statusField.value = 'REJECTED';
-            form.appendChild(statusField);
-    
-            var reasonField = document.createElement('input');
-            reasonField.type = 'hidden';
-            reasonField.name = 'reason';
-            reasonField.value = reason;
-            form.appendChild(reasonField);
-    
-            document.body.appendChild(form);
-            form.submit();
+    @if(auth()->user()->dep_id != 14)
+        <script>
+        function declineApplication(statusId) {
+            var reason = prompt("Please enter the reason for declining:");
+            if (reason != null && reason != "") {
+                var form = document.createElement('form');
+                form.method = 'POST';
+                form.action = "{{ route('Clearance.update', ['departmentId' => auth()->user()->dep_id, 'statusId' => ':statusId']) }}".replace(':statusId', statusId);
+                
+                var csrfToken = document.createElement('input');
+                csrfToken.type = 'hidden';
+                csrfToken.name = '_token';
+                csrfToken.value = "{{ csrf_token() }}";
+                form.appendChild(csrfToken);
+        
+                var methodField = document.createElement('input');
+                methodField.type = 'hidden';
+                methodField.name = '_method';
+                methodField.value = 'PUT';
+                form.appendChild(methodField);
+        
+                var statusField = document.createElement('input');
+                statusField.type = 'hidden';
+                statusField.name = 'status';
+                statusField.value = 'REJECTED';
+                form.appendChild(statusField);
+        
+                var reasonField = document.createElement('input');
+                reasonField.type = 'hidden';
+                reasonField.name = 'reason';
+                reasonField.value = reason;
+                form.appendChild(reasonField);
+        
+                document.body.appendChild(form);
+                form.submit();
+            }
         }
-    }
-    
-    </script>
+        </script>
+    @endif
 </div>
-    @endsection
+@endsection

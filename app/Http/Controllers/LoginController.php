@@ -39,6 +39,28 @@ class LoginController extends Controller
             switch ($user->dep_id) {
                 case 3:   
                     return redirect()->route('vc.vc');
+                case 31:   
+                    return redirect()->route('vc.vc');
+                case 32:   
+                    return redirect()->route('vc.vc');
+                case 33:   
+                    return redirect()->route('vc.vc');
+                case 34:   
+                    return redirect()->route('vc.vc');
+                case 35:   
+                    return redirect()->route('vc.vc');
+                case 36:   
+                    return redirect()->route('vc.vc');
+                case 37:   
+                    return redirect()->route('vc.vc');
+                case 38:   
+                    return redirect()->route('vc.vc');
+                case 39:   
+                    return redirect()->route('vc.vc');
+                case 40:   
+                    return redirect()->route('vc.vc');
+
+
                 case 4:
                     return redirect()->route('ocus.ocus'); //it deivision
                 case 5:
@@ -59,8 +81,10 @@ class LoginController extends Controller
                     return redirect()->route('accsec.accsec');
                 case 15:
                     return redirect()->route('helpdesk.helpdesk');
+
                 case 16:
                     return redirect()->route('enlistment.enlistment');
+                
 
                 default:
                     Auth::logout();

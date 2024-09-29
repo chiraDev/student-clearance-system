@@ -36,7 +36,7 @@ class ClearanceController extends Controller
         $totalRequests = $query->count();
 
         // Get the paginated results
-        $applicationStatuses = $query->paginate(10);
+        $applicationStatuses = $query->with(['application.studentInfo', 'application.user'])->paginate(10);
 
         // Load the related applications and users
         $applicationStatuses->load('application.user');
