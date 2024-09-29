@@ -83,6 +83,7 @@ class StudentDashboardController extends Controller
         // Create a new application record
         $application = new Application();
         $application->student_id = $studentInfo->id;
+        $application->user_name = $user->user_name; 
         $application->application_status = 'PENDING'; // Default status
         $application->created_by = $user->id;
         $application->updated_by = $user->id;
