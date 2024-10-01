@@ -39,5 +39,4 @@ class StudentInfo extends Model
     {
         return $this->hasOne(Application::class, 'student_id');
     }
-    
 }

@@ -31,23 +31,28 @@
             <li class="application-item">
                 <div class="application-header">
                     <h5>Application #{{ $status->application_id }}</h5>
-                    @php
-                        $badgeClass = $status->status === 'APPROVED' ? 'status-approved' : 'status-rejected';
-                    @endphp
-                    <span class="status-badge {{ $badgeClass }}">{{ $status->status }}</span>
+                    @if(auth()->user()->dep_id != 14)
+                        @php
+                            $badgeClass = $status->status === 'APPROVED' ? 'status-approved' : 'status-rejected';
+                        @endphp
+                        <span class="status-badge {{ $badgeClass }}">{{ $status->status }}</span>
+                    @endif
                 </div>
 
                 <div class="application-details">
                     <p><strong>User:</strong> {{ $status->application->user->user_name }}</p>
                     <p><strong>Registration Number:</strong> {{ $status->application->user->reg_no }}</p>
-                    @if($status->status === 'REJECTED')
-                        <p><strong>Reason:</strong> {{ $status->reason ?? 'N/A' }}</p>
+                    @if(auth()->user()->dep_id != 14)
+                        @if($status->status === 'REJECTED')
+                            <p><strong>Reason:</strong> {{ $status->reason ?? 'N/A' }}</p>
+                        @endif
+                        <p><strong>Status:</strong> {{ $status->status }}</p>
                     @endif
-                    <p><strong>Status:</strong> {{ $status->status }}</p>
                     <p><strong>Last Updated:</strong> {{ $status->updated_at->format('Y-m-d H:i:s') }}</p>
                 </div>
 
                 <div class="button-group">
+
                 @if(auth()->user()->dep_id != 14)
                     @if (!$isEnlistment || ($isEnlistment && $status->allOthersApproved))
                         <form action="{{ route('Clearance.update', ['departmentId' => auth()->user()->dep_id, 'statusId' => $status->id]) }}" method="POST" onsubmit="return setPersonNameBeforeSubmit({{ $status->id }})">
@@ -78,7 +83,7 @@
                     
                     <button type="button" class="btn btn-decline" onclick="declineApplication('{{ $status->id }}')">Decline</button>
                 @endif
-                @php
+
                         $hideShowMoreButton = in_array(auth()->user()->dep_id, [3,31,32,33,34,35,36,37,38,39,40, 4, 5, 6, 7, 9, 10, 12, 13]);
                     @endphp
 
@@ -93,7 +98,6 @@
             </li>
         @endforelse
     </ul>
-
     <script>
         // Function to set the rank and person name values for each approval form
         function updateRankValue(rank) {
@@ -187,3 +191,4 @@
     </script>
 </div>
 @endsection
+
