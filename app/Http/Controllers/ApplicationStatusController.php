@@ -29,7 +29,7 @@ class ApplicationStatusController extends Controller
               ->orWhere('reg_no', 'like', "%{$search}%");
         })->orWhere('application_id', 'like', "%{$search}%");
     }
-
+    
     $applicationStatuses = $query->get();
     $totalRequests = $applicationStatuses->count();
 

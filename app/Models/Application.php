@@ -84,11 +84,9 @@ class Application extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
-
     public function studentInfo()
     {
         return $this->belongsTo(StudentInfo::class, 'student_id');
     }
-
 }
 
