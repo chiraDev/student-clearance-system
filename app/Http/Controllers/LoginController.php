@@ -34,12 +34,34 @@ class LoginController extends Controller
         if ($user->is_super_admin) {
             return redirect()->route('users.import-form');
         }
-
         if ($user->is_management) {
             switch ($user->dep_id) {
+                case 4:
+                    return redirect()->route('ocus.ocus'); 
+                case 5:
+                     return redirect()->route('it-division');
+                case 6:
+                    return redirect()->route('logofficer.log'); 
+                case 8:
+                     return redirect()->route('cadetmess.cadetmess'); 
+                case 9:
+                     return redirect()->route('publication.publication');
+                case 10:
+                    return redirect()->route('sods.sods');
+                case 11:
+                     return redirect()->route('tso.tso');
+                case 12:
+                    return redirect()->route('library.library');
+                case 13:
+                    return redirect()->route('accsec.accsec');
+                case 14:
+                    return redirect()->route('helpdesk.helpdesk');
+                case 15:
+                    return redirect()->route('enlistment.enlistment');
+
                 case 3:   
                     return redirect()->route('vc.vc');
-                case 31:   
+                case 20:   
                     return redirect()->route('vc.vc');
                 case 32:   
                     return redirect()->route('vc.vc');
@@ -58,55 +80,8 @@ class LoginController extends Controller
                 case 39:   
                     return redirect()->route('vc.vc');
                 case 40:   
-                    return redirect()->route('vc.vc');
-
-
-                case 4:
-                    return redirect()->route('ocus.ocus'); //it deivision
-                case 5:
-                     return redirect()->route('logOfficer.log');
-                case 6:
-                    return redirect()->route('arfoc.arfoc'); //fdss
-                case 7:
-                     return redirect()->route('cadetmess.cadetmess'); //
-                case 8:
-                     return redirect()->route('publication.publication');//
-                case 9:
-                    return redirect()->route('sods.sods');//sport division
-                case 10:
-                     return redirect()->route('tso.tso');//
-                case 13:
-                    return redirect()->route('library.library');
-                case 14:
-                    return redirect()->route('accsec.accsec');
-                case 15:
-                    return redirect()->route('helpdesk.helpdesk');
-
-                case 16:
-                    return redirect()->route('enlistment.enlistment');
-                
-
-                    case 31:   
-                        return redirect()->route('vc.vc');
-                    case 32:   
-                        return redirect()->route('vc.vc');
-                    case 33:   
-                        return redirect()->route('vc.vc');
-                    case 34:   
-                        return redirect()->route('vc.vc');
-                    case 35:   
-                        return redirect()->route('vc.vc');
-                    case 36:   
-                        return redirect()->route('vc.vc');
-                    case 37:   
-                        return redirect()->route('vc.vc');
-                    case 38:   
-                        return redirect()->route('vc.vc');
-                    case 39:   
-                        return redirect()->route('vc.vc');
-                    case 40:   
-                        return redirect()->route('vc.vc');    
-
+                    return redirect()->route('vc.vc');       
+    
                 default:
                     Auth::logout();
                     return redirect()->route('login')->withErrors(['email' => 'Unauthorized access.']);

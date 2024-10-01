@@ -38,11 +38,10 @@ class StudentDashboardController extends Controller
                 ->get();
                 //->slice(2);
         }
-    // Check if all departments have approved the application
-    $allApproved = $departmentStatuses->every(function ($status) {
-        return $status->status === 'APPROVED';
-    });
-
+  // Check if all departments have approved the application
+$allApproved = collect($departmentStatuses)->every(function ($status) {
+    return $status->status === 'APPROVED';
+});
     // Pass the user, student information, application, department statuses, and allApproved status to the view
     return view('student.dashboard', compact('user', 'studentInfo', 'application', 'departmentStatuses', 'allApproved'));
 

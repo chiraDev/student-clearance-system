@@ -102,7 +102,7 @@ Route::post('/users/send-activation-emails', [UserController::class, 'sendActiva
     
     Route::get('/log/dashboard', function() {
         return view('management.logOfficer.log');
-    })->name('logOfficer.log');
+    })->name('it-division');
     
     Route::get('/accsec/dashboard', function() {
         return view('management.accsec.accsec');
@@ -112,10 +112,9 @@ Route::post('/users/send-activation-emails', [UserController::class, 'sendActiva
         return view('management.library.library');
     })->name('library.library');
     
-    
     Route::get('/arfoc/dashboard', function() {
         return view('management.arfoc.arfoc');
-    })->name('arfoc.arfoc');
+    })->name('logofficer.log');
 
     Route::get('/cadetmess/dashboard', function() {
         return view('management.cadetmess.cadetmess');
