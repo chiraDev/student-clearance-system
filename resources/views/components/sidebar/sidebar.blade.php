@@ -191,6 +191,10 @@
       }
     }
   </style>
+
+    <!-- Other meta tags and styles -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 </head>
 <body>
   <!-- Sidebar Toggle Icon for small screens -->
@@ -204,158 +208,130 @@
     </a>
     
     <nav id="nav-content">
-        @auth
-        @php
-          $dep_id = Auth::user()->dep_id;
-          
-        @endphp
+      @auth
+      @php
+        $dep_id = Auth::user()->dep_id;
+      @endphp
+  
+      @if($dep_id == 1)
+        <!-- Common Buttons -->
+        <a class="nav-button" href="{{ route('student.dashboard') }}">
+          <i class="fas fa-home"></i> Dashboard
+        </a>
         
-        @if($dep_id == 1)
-      <!-- Common Buttons -->
-      <a class="nav-button" href="{{ route('student.dashboard') }}">
-        <i class="fas fa-home"></i> Dashboard
+      @elseif($dep_id == 3)
+        <a class="nav-button" href="{{ route('vc.vc') }}">
+          <i class="fas fa-cogs"></i> Home
+        </a>
+        <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
+          <i class="fas fa-cogs"></i> Clearance
+        </a>
+  
+      @elseif($dep_id == 15)
+        <a class="nav-button" href="{{ route('helpdesk.helpdesk') }}">
+          <i class="fas fa-headset"></i> Helpdesk
+        </a>
+        <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
+          <i class="fas fa-cogs"></i> Clearance
+        </a>
+  
+      @elseif($dep_id == 16)
+        <a class="nav-button" href="{{ route('enlistment.enlistment') }}">
+          <i class="fas fa-user-plus"></i> Enlistment
+        </a>
+        <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
+          <i class="fas fa-cogs"></i> Clearance
+        </a>
+  
+      @elseif($dep_id == 9)
+        <a class="nav-button" href="{{ route('sods.sods') }}">
+          <i class="fas fa-users"></i> SODS
+        </a>
+        <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
+          <i class="fas fa-cogs"></i> Clearance
+        </a>
+  
+      @elseif($dep_id == 4)
+        <a class="nav-button" href="{{ route('ocus.ocus') }}">
+          <i class="fas fa-cogs"></i> OCUS
+        </a>
+        <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
+          <i class="fas fa-cogs"></i> Clearance
+        </a>
+  
+      @elseif($dep_id == 5)
+        <a class="nav-button" href="{{ route('logOfficer.log') }}">
+          <i class="fas fa-file"></i> Log Officer
+        </a>
+        <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
+          <i class="fas fa-cogs"></i> Clearance
+        </a>
+  
+      @elseif($dep_id == 14)
+        <a class="nav-button" href="{{ route('accsec.accsec') }}">
+          <i class="fas fa-money-check"></i> ACCSEC
+        </a>
+        <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
+          <i class="fas fa-cogs"></i> Clearance
+        </a>
+  
+      @elseif($dep_id == 13)
+        <a class="nav-button" href="{{ route('library.library') }}">
+          <i class="fas fa-book"></i> Library
+        </a>
+        <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
+          <i class="fas fa-cogs"></i> Clearance
+        </a>
+  
+      @elseif($dep_id == 6)
+        <a class="nav-button" href="{{ route('arfoc.arfoc') }}">
+          <i class="fas fa-globe"></i> ARFOC
+        </a>
+        <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
+          <i class="fas fa-cogs"></i> Clearance
+        </a>
+  
+      @elseif($dep_id == 7)
+        <a class="nav-button" href="{{ route('cadetmess.cadetmess') }}">
+          <i class="fas fa-globe"></i> Cadet Mess
+        </a>
+        <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
+          <i class="fas fa-cogs"></i> Clearance
+        </a>
+  
+      @elseif($dep_id == 8)
+        <a class="nav-button" href="{{ route('publication.publication') }}">
+          <i class="fas fa-globe"></i> Publication
+        </a>
+        <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
+          <i class="fas fa-cogs"></i> Clearance
+        </a>
+  
+      @elseif($dep_id == 10)
+        <a class="nav-button" href="{{ route('tso.tso') }}">
+          <i class="fas fa-globe"></i> TSO
+        </a>
+        <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
+          <i class="fas fa-cogs"></i> Clearance
+        </a>
+  
+      @endif
+  
+      <!-- Add Staff Button for All Departments -->
+      <a class="nav-button" href="{{ route('ranks.create') }}">
+        <i class="fas fa-user-plus"></i> Add Staff
       </a>
-     
-
-      <!-- Dynamic Buttons Based on dep_id -->
-     
-        @elseif($dep_id == 3)
-          <a class="nav-button" href="{{ route('vc.vc') }}">
-            <i class="fas fa-cogs"></i> Home
-          </a>
-
-          <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
-            <i class="fas fa-cogs"></i> clearance
-        </a>
-        
-         
-
-
-
-        @elseif($dep_id == 15)
-          <a class="nav-button" href="{{ route('helpdesk.helpdesk') }}">
-            <i class="fas fa-headset"></i> Helpdesk
-          </a>
-          <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
-            <i class="fas fa-cogs"></i> clearance
-        </a>
-         
-
-
-        @elseif($dep_id == 16)
-          <a class="nav-button" href="{{ route('enlistment.enlistment') }}">
-            <i class="fas fa-user-plus"></i> Enlistment
-          </a>
-          <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
-            <i class="fas fa-cogs"></i> clearance
-        </a>
-          
-
-
-
-
-        @elseif($dep_id == 9)
-          <a class="nav-button" href="{{ route('sods.sods') }}">
-            <i class="fas fa-users"></i> SODS
-          </a>
-          <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
-            <i class="fas fa-cogs"></i> clearance
-        </a>
-        
-
-
-
-
-        @elseif($dep_id == 4)
-          <a class="nav-button" href="{{ route('ocus.ocus') }}">
-            <i class="fas fa-cogs"></i> OCUS
-          </a>
-          <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
-            <i class="fas fa-cogs"></i> clearance
-        </a>
-         
-
-
-
-
-        @elseif($dep_id == 5)
-          <a class="nav-button" href="{{ route('logOfficer.log') }}">
-            <i class="fas fa-file"></i> Log Officer
-          </a>
-         
-          <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
-            <i class="fas fa-cogs"></i> clearance
-        </a>
-          
-
-
-
-        @elseif($dep_id == 14)
-          <a class="nav-button" href="{{ route('accsec.accsec') }}">
-            <i class="fas fa-money-check"></i> ACCSEC
-          </a>
-          <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
-            <i class="fas fa-cogs"></i> clearance
-        </a>
-
-
-
-        @elseif($dep_id == 13)
-          <a class="nav-button" href="{{ route('library.library') }}">
-            <i class="fas fa-book"></i> Library
-          </a>
-          <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
-            <i class="fas fa-cogs"></i> clearance
-        </a>
-          
-
-
-
-        @elseif($dep_id == 6)
-          <a class="nav-button" href="{{ route('arfoc.arfoc') }}">
-            <i class="fas fa-globe"></i> ARFOC
-          </a>
-          <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
-            <i class="fas fa-cogs"></i> clearance
-        </a>
-
-        @elseif($dep_id == 7)
-          <a class="nav-button" href="{{ route('cadetmess.cadetmess') }}">
-            <i class="fas fa-globe"></i> Cadet Mess
-          </a>
-          <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
-            <i class="fas fa-cogs"></i> clearance
-        </a>
-
-        @elseif($dep_id == 8)
-          <a class="nav-button" href="{{ route('publication.publication') }}">
-            <i class="fas fa-globe"></i> Publication
-          </a>
-          <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
-            <i class="fas fa-cogs"></i> clearance
-        </a>
-
-        @elseif($dep_id == 10)
-          <a class="nav-button" href="{{ route('tso.tso') }}">
-            <i class="fas fa-globe"></i> TSO
-          </a>
-          <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
-            <i class="fas fa-cogs"></i> clearance
-        </a>
-
-
-        @endif
-        <a class="nav-button" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-          <i class="fas fa-sign-out-alt"></i> Log Out
+  
+      <a class="nav-button" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+        <i class="fas fa-sign-out-alt"></i> Log Out
       </a>
-      
+  
       <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-          @csrf
+        @csrf
       </form>
-
-
       @endauth
-    </nav>
+  </nav>
+  
   </div>
 
   <main id="main-content">

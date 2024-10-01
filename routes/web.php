@@ -1,15 +1,19 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\StudentDashboardController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ClearanceRequestController;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\StaffController;
 use App\Http\Controllers\ClearanceController;
-use App\Http\Controllers\ApplicationStatusController;
-use App\Http\Controllers\ClearanceReportController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\ClearanceReportController;
+use App\Http\Controllers\ClearanceRequestController;
+use App\Http\Controllers\StudentDashboardController;
+use App\Http\Controllers\ApplicationStatusController;
+use App\Http\Controllers\RankController;
 
 
 
@@ -18,6 +22,30 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/student/download-clearance', [StudentDashboardController::class, 'downloadClearancePDF'])->name('student.downloadClearancePDF');
+
+
+Route::group(['middleware' => ['auth']], function () {
+    // Route to filter by person (rank) in a specific department
+    Route::get('/clearance/{departmentId}/filter', [ClearanceController::class, 'index'])
+        ->name('Clearance.filter');
+});
+
+Route::get('/departments', [RankController::class, 'getDepartments']);  // To load the page with departments
+Route::post('/get-ranks', [RankController::class, 'getRanksByDepartment']);  // To fetch ranks based on department
+
+    // Route to show the form (GET method)
+    Route::get('/ranks/create', [RankController::class, 'create'])->name('ranks.create');
+
+    // Route to handle form submission (POST method)
+    Route::post('/ranks', [RankController::class, 'store'])->name('ranks.store');
+// Forgot Password
+Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+
+// Reset Password
+Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
@@ -116,6 +144,8 @@ Route::get('/applications/filter', [ApplicationStatusController::class, 'filter'
 Route::get('/management/dashboard', [StudentDashboardController::class, 'management'])->name('management.dashboard');
 
 
+// Route::get('/student/download-clearance-pdf', [StudentDashboardController::class, 'downloadClearancePDF'])
+//     ->name('student.downloadClearancePDF');
 
 Route::get('/status-chart', [ClearanceReportController::class, 'index'])->name('status.chart');
 Route::get('/duration-chart', [ClearanceReportController::class, 'duration'])->name('duration.chart');

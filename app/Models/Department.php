@@ -49,5 +49,9 @@ class Department extends Model
     {
         return $this->belongsTo(Faculty::class, 'faculty_id');
     }
+    public function ranks()
+    {
+        return $this->hasMany(Rank::class);
+    }
  
 }

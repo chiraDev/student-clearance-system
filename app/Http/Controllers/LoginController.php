@@ -62,6 +62,27 @@ class LoginController extends Controller
                 case 16:
                     return redirect()->route('enlistment.enlistment');
 
+                    case 31:   
+                        return redirect()->route('vc.vc');
+                    case 32:   
+                        return redirect()->route('vc.vc');
+                    case 33:   
+                        return redirect()->route('vc.vc');
+                    case 34:   
+                        return redirect()->route('vc.vc');
+                    case 35:   
+                        return redirect()->route('vc.vc');
+                    case 36:   
+                        return redirect()->route('vc.vc');
+                    case 37:   
+                        return redirect()->route('vc.vc');
+                    case 38:   
+                        return redirect()->route('vc.vc');
+                    case 39:   
+                        return redirect()->route('vc.vc');
+                    case 40:   
+                        return redirect()->route('vc.vc');    
+
                 default:
                     Auth::logout();
                     return redirect()->route('login')->withErrors(['email' => 'Unauthorized access.']);
