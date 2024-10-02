@@ -382,8 +382,6 @@
 
 
 </style>
-
-
 <div class="container">
     <h1 class="department-title">{{ auth()->user()->department->dep_name }} Department</h1>
 
@@ -434,27 +432,26 @@
                 </div>
                 <div class="button-group">
                     @if(auth()->user()->dep_id != 14)
-                        @if (!$isEnlistment || ($isEnlistment && $status->allOthersApproved))
-                            <form action="{{ route('Clearance.update', ['departmentId' => auth()->user()->dep_id, 'statusId' => $status->id]) }}" method="POST">
-                                @csrf
-                                @method('PUT')
-                                <input type="hidden" name="status" value="APPROVED">
+                        <form action="{{ route('Clearance.update', ['departmentId' => auth()->user()->dep_id, 'statusId' => $status->id]) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <input type="hidden" name="status" value="APPROVED">
+                            @if(auth()->user()->dep_id == 15)
+                                <button type="submit" class="btn btn-approve">Issue Clearance</button>
+                            @else
                                 <button type="submit" class="btn btn-approve">Approve</button>
-                                
-                                @if(auth()->user()->dep_id == 4)
-                                    <div class="warning-message mt-2 text-danger">
-                                        <small><strong>Warning:</strong> Please check the KDU ID before giving approval.</small>
-                                    </div>
-                                @endif
-                            </form>
-                        @else
-                            <div class="approval-container">
-                                <button class="btn btn-approve" disabled>Approve</button>
-                                <small class="text-danger">Departments are not completed</small>
-                            </div>
-                        @endif
+                            @endif
+                            
+                            @if(auth()->user()->dep_id == 4)
+                                <div class="warning-message mt-2 text-danger">
+                                    <small><strong>Warning:</strong> Please check the KDU ID before giving approval.</small>
+                                </div>
+                            @endif
+                        </form>
                         
-                        <button type="button" class="btn btn-decline" onclick="declineApplication('{{ $status->id }}')">Decline</button>
+                        @if(auth()->user()->dep_id != 15)
+                            <button type="button" class="btn btn-decline" onclick="declineApplication('{{ $status->id }}')">Decline</button>
+                        @endif
                     @endif
 
                     @php
@@ -462,7 +459,7 @@
                     @endphp
 
                     @if(!$hideShowMoreButton)
-                        <a href="{{ route('student.dashboard') }}" class="btn btn-show-more">Show More</a>
+                        <a href="{{ route('applications.statuses', ['id' => $status->application_id]) }}" class="btn btn-show-more">Show More</a>
                     @endif
                 </div>
             </li>
@@ -473,7 +470,7 @@
         @endforelse
     </ul>
     
-    @if(auth()->user()->dep_id != 14)
+    @if(auth()->user()->dep_id != 14 && auth()->user()->dep_id != 15)
         <script>
         function declineApplication(statusId) {
             var reason = prompt("Please enter the reason for declining:");

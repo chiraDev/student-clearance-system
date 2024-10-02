@@ -14,6 +14,16 @@ class ClearanceController extends Controller
     {
         $query = ApplicationStatus::where('department_id', $departmentId);
 
+        // If department ID is 15, only show applications approved by all other departments except 1 and 2
+        if ($departmentId == 15) {
+            $query->whereHas('application', function ($q) use ($departmentId) {
+                $q->whereDoesntHave('applicationStatuses', function ($sq) use ($departmentId) {
+                    $sq->whereNotIn('department_id', [1, 2, $departmentId])
+                       ->where('status', '!=', 'APPROVED');
+                });
+            });
+        }
+
         // Filter by approval status
         if ($request->has('approved') && !$request->has('rejected')) {
             $query->where('status', 'APPROVED');
@@ -41,15 +51,8 @@ class ClearanceController extends Controller
         // Load the related applications and users
         $applicationStatuses->load('application.user');
 
-        // Check if the current department is Enlistment (assuming dep_id 8 is Enlistment)
-        $isEnlistment = $departmentId == 16;
-
-        // If it's Enlistment, check approval status for each application
-        if ($isEnlistment) {
-            foreach ($applicationStatuses as $status) {
-                $status->allOthersApproved = $this->allOtherDepartmentsApproved($status->application_id, $departmentId);
-            }
-        }
+        // Check if the current department is Enlistment (assuming dep_id 15 is Enlistment)
+        $isEnlistment = $departmentId == 15;
 
         return view('Clearance.department', [
             'applicationStatuses' => $applicationStatuses,
@@ -58,6 +61,13 @@ class ClearanceController extends Controller
             'departmentId' => $departmentId
         ]);
     }
+
+
+
+
+
+
+
 
     public function updateStatus(Request $request, $departmentId, $statusId)
     {
@@ -69,7 +79,7 @@ class ClearanceController extends Controller
             }
 
             // If it's Enlistment department, check if all other departments have approved
-            if ($departmentId == 13 && $request->input('status') === 'APPROVED') {
+            if ($departmentId == 15 && $request->input('status') === 'APPROVED') {
                 if (!$this->allOtherDepartmentsApproved($status->application_id, $departmentId)) {
                     return back()->with('error', 'All other departments must approve first.');
                 }
@@ -104,6 +114,13 @@ class ClearanceController extends Controller
             return back()->with('error', 'An error occurred while updating the status.');
         }
     }
+
+
+
+
+
+
+
 
     private function allOtherDepartmentsApproved($applicationId, $currentDepartmentId)
     {

@@ -90,5 +90,7 @@ class Application extends Model
         return $this->belongsTo(StudentInfo::class, 'student_id');
     }
 
+    
+
 }
 

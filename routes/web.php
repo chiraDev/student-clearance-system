@@ -39,6 +39,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/student/submit-clearance-form', [StudentDashboardController::class, 'submitClearanceForm'])->name('student.submitClearanceForm');
 });
 
+
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Route::get('im', [UserController::class, 'importForm'])->name('users.import-form');
 Route::post('im', [UserController::class, 'import'])->name('users.import');
@@ -132,3 +134,9 @@ Route::get('/add', [DepartmentController::class, 'showAddStaffForm'])->name('dep
 Route::post('/add', [DepartmentController::class, 'addStaff'])->name('departments.add');
 Route::get('/user', [DepartmentController::class, 'show'])->name('departments.profile');
 Route::put('/userp/{id}', [DepartmentController::class, 'update'])->name('user.updateinfo');
+
+
+
+
+
+Route::get('/application/{id}/statuses', 'App\Http\Controllers\ShowmoreapplicationStatusController@show')->name('applications.statuses');

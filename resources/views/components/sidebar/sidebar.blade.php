@@ -390,6 +390,18 @@
             <i class="fas fa-cogs"></i> clearance
         </a>
 
+        @elseif($dep_id == 11)
+          
+        <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
+          <i class="fas fa-cogs"></i> clearance
+      </a>
+      @elseif($dep_id == 12)
+          
+      <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
+        <i class="fas fa-cogs"></i> clearance
+    </a>
+
+
 
         @endif
         <a class="nav-button" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
