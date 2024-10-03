@@ -67,8 +67,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/student/submit-clearance-form', [StudentDashboardController::class, 'submitClearanceForm'])->name('student.submitClearanceForm');
 });
 
-
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Route::get('im', [UserController::class, 'importForm'])->name('users.import-form');
 Route::post('im', [UserController::class, 'import'])->name('users.import');
@@ -162,5 +160,4 @@ Route::get('/search', [DepartmentController::class, 'search'])->name('department
 Route::get('/add', [DepartmentController::class, 'showAddStaffForm'])->name('departments.add.form');
 Route::post('/add', [DepartmentController::class, 'addStaff'])->name('departments.add');
 Route::get('/user', [DepartmentController::class, 'show'])->name('departments.profile');
-
 Route::put('/userp/{id}', [DepartmentController::class, 'update'])->name('user.updateinfo');
