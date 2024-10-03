@@ -64,12 +64,26 @@ class DepartmentController extends Controller
         return redirect()->back()->with('success', 'Department deleted successfully!');
     }
 
+
+
+
+
+
+
+    
     // Show Add Staff Form
     public function showAddStaffForm()
     {
         $departments = Department::all();
         return view('departments.add', compact('departments'));
     }
+
+
+
+
+
+
+
 
     // Handle Add Staff Form Submission
     public function addStaff(Request $request)
