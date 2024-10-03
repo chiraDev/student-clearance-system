@@ -185,6 +185,7 @@
                 <p>Name of the Registrar</p>
                 <p>Registrar</p>
             </div>
+        </div>
         <div class="footer">
             <p>This is an official clearance document issued by General Sir John Kotelawala Defence University.</p>
             <p>Kandawala Estate, Ratmalana, Sri Lanka</p>
