@@ -56,8 +56,8 @@
                     @if(auth()->user()->dep_id != 14)
 
                     @if (!$isEnlistment || ($isEnlistment && $status->allOthersApproved))
-                        <form action="{{ route('Clearance.update', ['departmentId' => auth()->user()->dep_id, 'statusId' => $status->id]) }}" method="POST" onsubmit="return setPersonNameBeforeSubmit({{ $status->id }})">
-                            @csrf
+                    <form action="{{ route('Clearance.update', ['departmentId' => auth()->user()->dep_id, 'statusId' => $status->id]) }}" method="POST" onsubmit="return setPersonNameBeforeSubmit('{{ $status->id }}')">
+                         @csrf
                             @method('PUT')
                             <input type="hidden" name="status" value="APPROVED">
 
@@ -193,4 +193,3 @@
     </script>
 </div>
 @endsection
-
