@@ -28,7 +28,7 @@
                     <a class="nav-button" href="{{ route('student.dashboard') }}">
                         <i class="fas fa-home"></i> Dashboard
                     </a>
-                @elseif(in_array($dep_id, [3, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 15, 16, 9, 4, 5, 14, 13, 6, 7, 8, 10]))
+                @elseif(in_array($dep_id, [3,4, 5,  6, 7, 8,  9, 10, 11, 15, 14, 13, 16 , 17 , 18, 19, 20, 21, 22, 23, 24, 25,]))
                     <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
                         <i class="fas fa-cogs"></i> Clearance
                     </a>

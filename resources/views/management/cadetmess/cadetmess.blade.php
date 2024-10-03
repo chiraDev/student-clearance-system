@@ -78,7 +78,7 @@
 <div class="container">
 
     <!-- Welcome Overlay -->
-    <div class="welcome-overlay">Welcome to the Cadet Mess KDU</div>
+    <!-- <div class="welcome-overlay">Welcome to the Cadet Mess KDU</div> -->
 </div>
     <!-- Logout Link -->
    

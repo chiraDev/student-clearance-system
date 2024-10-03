@@ -78,7 +78,7 @@
 <div class="container">
 
     <!-- Welcome Overlay -->
-    <div class="welcome-overlay">Welcome to the Technical Support Officer KDU</div>
+    <!-- <div class="welcome-overlay">Welcome to the Technical Support Officer KDU</div> -->
 </div>
     <!-- Logout Link -->
     <a href="{{ route('logout') }}" 

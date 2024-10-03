@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to the Libarary Dashboard</title>
+    <title>Welcome to the FDSS Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body, html {
@@ -78,7 +78,7 @@
 <div class="container">
 
     <!-- Welcome Overlay -->
-    <!-- <div class="welcome-overlay">Welcome to the Libarary Dashboard</div> -->
+    <div class="welcome-overlay">Welcome to the FDSS KDU</div>
 </div>
     <!-- Logout Link -->
    

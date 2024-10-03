@@ -127,6 +127,10 @@ Route::post('/users/send-activation-emails', [UserController::class, 'sendActiva
     Route::get('/publication/tso', function() {
         return view('management.tso.tso');
     })->name('tso.tso'); 
+
+    Route::get('/fdss/fdss', function() {
+        return view('management.fdss.fdss');
+    })->name('fdss.fdss');
     
  });
 
@@ -161,3 +165,5 @@ Route::get('/add', [DepartmentController::class, 'showAddStaffForm'])->name('dep
 Route::post('/add', [DepartmentController::class, 'addStaff'])->name('departments.add');
 Route::get('/user', [DepartmentController::class, 'show'])->name('departments.profile');
 Route::put('/userp/{id}', [DepartmentController::class, 'update'])->name('user.updateinfo');
+
+Route::get('/application/{id}/statuses', 'App\Http\Controllers\ShowmoreapplicationStatusController@show')->name('applications.statuses');

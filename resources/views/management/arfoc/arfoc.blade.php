@@ -2,8 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1>Welcome to the AR Dashboard</h1>
-    <p>This is where you can manage AR-related tasks.</p>
+    <h1>Welcome to the Log Office Department</h1>
 
     <!-- Logout Link -->
     <a href="{{ route('logout') }}" 

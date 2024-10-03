@@ -78,7 +78,7 @@
 <div class="container">
 
     <!-- Welcome Overlay -->
-    <div class="welcome-overlay">Welcome to the Enlistment Dashboard</div>
+    <!-- <div class="welcome-overlay">Welcome to the Enlistment Dashboard</div> -->
 </div>
     <!-- Logout Link -->
    

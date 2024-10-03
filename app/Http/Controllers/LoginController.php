@@ -42,6 +42,8 @@ class LoginController extends Controller
                      return redirect()->route('it-division');
                 case 6:
                     return redirect()->route('logofficer.log'); 
+                case 7:
+                        return redirect()->route('fdss.fdss'); 
                 case 8:
                      return redirect()->route('cadetmess.cadetmess'); 
                 case 9:
@@ -61,25 +63,25 @@ class LoginController extends Controller
 
                 case 3:   
                     return redirect()->route('vc.vc');
+                case 16 :   
+                    return redirect()->route('vc.vc');
+                case 17:   
+                    return redirect()->route('vc.vc');
+                case 18:   
+                    return redirect()->route('vc.vc');
+                case 19:   
+                    return redirect()->route('vc.vc');
                 case 20:   
                     return redirect()->route('vc.vc');
-                case 32:   
+                case 21:   
                     return redirect()->route('vc.vc');
-                case 33:   
+                case 22:   
                     return redirect()->route('vc.vc');
-                case 34:   
+                case 23:   
                     return redirect()->route('vc.vc');
-                case 35:   
+                case 24:   
                     return redirect()->route('vc.vc');
-                case 36:   
-                    return redirect()->route('vc.vc');
-                case 37:   
-                    return redirect()->route('vc.vc');
-                case 38:   
-                    return redirect()->route('vc.vc');
-                case 39:   
-                    return redirect()->route('vc.vc');
-                case 40:   
+                case 25:   
                     return redirect()->route('vc.vc');       
     
                 default:
@@ -103,6 +105,6 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect('/');
     }
 }

@@ -97,7 +97,7 @@ class UsersTableSeeder extends Seeder
                 'user_name' => 'Technical Support Office',
                 'email' => 'tso@gmail.com',
                 'password' => Hash::make('password'),
-                'dep_id' => 10,
+                'dep_id' => 11,
                 'is_student' => false,
                 'is_management' => true,
                 'is_super_admin' => false,

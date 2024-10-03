@@ -78,7 +78,7 @@
 <div class="container">
 
     <!-- Welcome Overlay -->
-    <div class="welcome-overlay">Welcome to the AR Help Desk  Dashboard</div>
+    <!-- <div class="welcome-overlay">Welcome to the AR Help Desk  Dashboard</div> -->
 </div>
     <!-- Logout Link -->
    

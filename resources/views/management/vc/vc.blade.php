@@ -79,7 +79,7 @@
 <div class="container">
 
     <!-- Welcome Overlay -->
-    <div class="welcome-overlay">Welcome to the Head Quartes Dashboard</div>
+    <!-- <div class="welcome-overlay">Welcome to the Head Quartes Dashboard</div> -->
 </div>
     <!-- Logout Link -->
     <a href="{{ route('logout') }}" 

@@ -2,17 +2,17 @@
 
 @section('content')
 <div class="container">
-    <h1>Welcome to the IT Division Dashboard</h1>
-    <p>This is where you can manage VC-related tasks.</p>
+    <!-- <h1>Welcome to the Head Queartes Dashboard</h1> -->
+    
 
     <!-- Logout Link -->
     <a href="{{ route('logout') }}" 
         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
         Logout
     </a>
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+    <!-- <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
         @csrf
-    </form>
+    </form> -->
 
     <!-- Add more content here if needed -->
 

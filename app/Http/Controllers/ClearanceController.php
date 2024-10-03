@@ -92,23 +92,22 @@ class ClearanceController extends Controller
     
             // Check for department mismatch
             if ($status->department_id != $departmentId) {
-                return response()->json(['success' => false, 'message' => 'Unauthorized action: Department ID mismatch.'], 403);
+                return redirect()->back()->with('error', 'Unauthorized action: Department ID mismatch.');
             }
     
             // Get the rank and validate it
             $personName = $request->input('rank');
             if (!$personName) {
-                return response()->json(['success' => false, 'message' => 'Please select a person to approve or reject the application.'], 400);
+                return redirect()->back()->with('error', 'Please select a person to approve or reject the application.');
             }
     
-            // Log the person name and department
             Log::info('Selected person name:', ['personName' => $personName]);
     
             // Retrieve the rank_name from the Rank model based on the person_name
             $rank = Rank::where('person_name', $personName)->first();
             if (!$rank) {
                 Log::warning('Invalid rank selected or not found:', ['personName' => $personName]);
-                return response()->json(['success' => false, 'message' => 'Invalid rank selected.'], 400);
+                return redirect()->back()->with('error', 'Invalid rank selected.');
             }
     
             Log::info('Fetched Rank:', ['rank' => $rank]);
@@ -117,7 +116,7 @@ class ClearanceController extends Controller
             $statusValue = $request->input('status');
             if (!in_array($statusValue, ['APPROVED', 'REJECTED'])) {
                 Log::warning('Invalid status value received:', ['statusValue' => $statusValue]);
-                return response()->json(['success' => false, 'message' => 'Invalid status selected.'], 400);
+                return redirect()->back()->with('error', 'Invalid status selected.');
             }
     
             // Log the data to be updated
@@ -125,7 +124,7 @@ class ClearanceController extends Controller
                 'status' => $statusValue,
                 'rank' => $rank->rank_name, // Save rank_name
                 'updated_by' => Auth::id(),
-                'person_name' => $personName,     // Save person_name
+                'person_name' => $personName, // Save person_name
             ];
             Log::info('Data prepared for update:', ['data' => $data]);
     
@@ -134,7 +133,7 @@ class ClearanceController extends Controller
                 $reason = $request->input('reason');
                 if (empty($reason)) {
                     Log::warning('Rejection reason missing for rejected status.');
-                    return response()->json(['success' => false, 'message' => 'Reason is required when rejecting an application.'], 400);
+                    return redirect()->back()->with('error', 'Reason is required when rejecting an application.');
                 }
                 $data['reason'] = $reason;
             } else {
@@ -144,15 +143,14 @@ class ClearanceController extends Controller
             // Attempt to update the status
             $updated = $status->update($data);
             Log::info('Update operation result:', ['updated' => $updated]);
-            Log::info('Updated status data:', $status->toArray());        
+            Log::info('Updated status data:', $status->toArray());
     
             // If the update failed, log and return an error
             if (!$updated) {
                 Log::error('Failed to update the application status in the database.');
-                return response()->json(['success' => false, 'message' => 'Failed to update status. Please try again.'], 500);
+                return redirect()->back()->with('error', 'Failed to update status. Please try again.');
             }
     
-            // Log the successful update
             Log::info('Status updated successfully.', ['statusId' => $statusId]);
     
             // Save the updated application (if necessary)
@@ -160,11 +158,14 @@ class ClearanceController extends Controller
             $application->save();
             Log::info('Application saved successfully after status update.', ['application' => $application]);
     
-            $message = $statusValue === 'APPROVED' 
-                ? 'Application approved successfully.' 
+            // Create a success message based on the status value
+            $message = $statusValue === 'APPROVED'
+                ? 'Application approved successfully.'
                 : 'Application rejected successfully with reason: ' . $reason;
     
-            return response()->json(['success' => true, 'message' => $message]);
+            // Redirect to the Clearance.list route with the departmentId
+            return redirect()->route('Clearance.list', ['departmentId' => $departmentId])
+                             ->with('success', $message);
     
         } catch (\Exception $e) {
             // Log any exceptions with the stack trace for deeper insights
@@ -172,10 +173,11 @@ class ClearanceController extends Controller
                 'message' => $e->getMessage(),
                 'stackTrace' => $e->getTraceAsString()
             ]);
-            return response()->json(['success' => false, 'message' => 'An error occurred while updating the status. Please try again.'], 500);
+    
+            // Redirect back with an error message
+            return redirect()->back()->with('error', 'An error occurred while updating the status. Please try again.');
         }
     }
-    
     private function allOtherDepartmentsApproved($applicationId, $currentDepartmentId)
     {
         $otherStatuses = ApplicationStatus::where('application_id', $applicationId)
