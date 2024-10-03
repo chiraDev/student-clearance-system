@@ -172,7 +172,7 @@ class DepartmentsTableSeeder extends Seeder
                 'faculty_id' => 11
             ],
             
-            
+        
         ]);
     }
 }

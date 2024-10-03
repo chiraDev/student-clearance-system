@@ -1,15 +1,19 @@
 <?php
 
+
 namespace App\Http\Controllers;
+use App\Models\User; 
+use Barryvdh\DomPDF\Facade\Pdf;
+
+use App\Models\Application;
+use App\Models\StudentInfo;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use App\Models\ApplicationStatus;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Http\Request;
-use App\Models\Application;
-use App\Models\ApplicationStatus;
-use App\Models\StudentInfo;
-use Illuminate\Support\Facades\DB;
-use App\Models\User; 
 
 
 
@@ -34,9 +38,13 @@ class StudentDashboardController extends Controller
                 ->get();
                 //->slice(2);
         }
+  // Check if all departments have approved the application
+$allApproved = collect($departmentStatuses)->every(function ($status) {
+    return $status->status === 'APPROVED';
+});
+    // Pass the user, student information, application, department statuses, and allApproved status to the view
+    return view('student.dashboard', compact('user', 'studentInfo', 'application', 'departmentStatuses', 'allApproved'));
 
-        // Pass the user, student information, application, and department statuses to the view
-        return view('student.dashboard', compact('user', 'studentInfo', 'application', 'departmentStatuses'));
     }
     public function management()
     {
@@ -117,7 +125,44 @@ class StudentDashboardController extends Controller
         return redirect()->route('student.dashboard')->with('success', 'Clearance application submitted successfully.');
     }
 
-
-
+     // New method for downloading clearance PDF
+     public function downloadClearancePDF()
+     {
+         // Retrieve the authenticated user
+         $user = Auth::user();
+     
+         // Retrieve the student's information along with related faculty data
+         $studentInfo = StudentInfo::with('faculty')->where('user_id', $user->id)->first();
+     
+         // Retrieve the application and its department statuses
+         $application = Application::where('student_id', $studentInfo->id)->first();
+     
+         // Retrieve all department statuses related to this application
+         $departmentStatuses = ApplicationStatus::with(['department', 'updater'])
+             ->where('application_id', $application->id)
+             ->get();
+     
+         // Filter the AR department related to the student's faculty and include all other non-AR departments
+         $filteredDepartmentStatuses = $departmentStatuses->filter(function ($status) use ($studentInfo) {
+             // Check if the department is an 'AR' related to the student's faculty
+             $isARDepartment = Str::startsWith($status->department->dep_name, 'AR') &&
+                               $status->department->faculty_id == $studentInfo->faculty->id;
+     
+             // Include all other non-AR departments
+             $isNonARDepartment = !Str::startsWith($status->department->dep_name, 'AR');
+     
+             return $isARDepartment || $isNonARDepartment;
+         });
+     
+         // Generate the PDF with the filtered department statuses
+         $pdf = Pdf::loadView('pdf.clearance', [
+             'user' => $user,
+             'studentInfo' => $studentInfo,
+             'application' => $application,
+             'departmentStatuses' => $filteredDepartmentStatuses // Use the filtered collection
+         ]);
+     
+         // Return the generated PDF for download
+         return $pdf->download('clearance_form.pdf');
+     }
 }
-

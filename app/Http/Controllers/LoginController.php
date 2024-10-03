@@ -42,6 +42,7 @@ class LoginController extends Controller
             return redirect()->route('users.import-form');
         }
 
+
         // Redirect for management users
         if ($user->is_management) {
             switch ($user->dep_id) {
@@ -93,6 +94,7 @@ class LoginController extends Controller
                     return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
                 case 16:
                     return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
+
                 default:
                     Auth::logout();
                     return redirect()->route('login')->withErrors(['email' => 'Unauthorized access.']);

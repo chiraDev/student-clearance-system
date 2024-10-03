@@ -15,7 +15,7 @@
     <div class="center-container">
     <div class="form-wrapper">
         <h2 class="form-title">Log in to your account</h2>
-        <h3 class="form-sub-title">Welcome to CMS KDU</h3>
+        <h3 class="form-sub-title">Welcome to CMS</h3>
 
         <form method="POST" action="{{ route('login') }}">
             @csrf
@@ -28,31 +28,16 @@
                 <!-- Password -->
                 <input id="password" type="password" name="password" required placeholder="Password">
             </div>
-
-            <div class="remember-me">
-                <!-- Remember Me -->
-                {{-- <div>
-                    <input id="remember_me" type="checkbox" name="remember">
-                    <label for="remember_me">Remember me</label>
-                </div> --}}
-
-                @if (Route::has('password.request'))
-                    <a href="{{ route('password.request') }}" class="forgot-password">Forgot your password?</a>
-                @endif
-            </div>
-
+                
+            <!-- Forgot Password -->
+            <div class="form-group forgot-password">
+                <a href="{{ route('password.request') }}">Forgot your password?</a>
+              </div>
             <!-- Submit Button -->
             <button type="submit" class="submit-btn">Login</button>
         </form>
 
-        {{-- <div class="register-prompt">
-            @if (Route::has('register'))
-                <p>
-                    Don't have an account?
-                    <a href="{{ route('register') }}">Register</a>
-                </p>
-            @endif
-        </div> --}}
+
     </div>
     <img src="/images/lg_art.png" alt="Descriptive Alt Text" class="side-image">
 

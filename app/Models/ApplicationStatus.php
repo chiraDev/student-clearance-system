@@ -12,9 +12,15 @@ class ApplicationStatus extends Model
     protected $table = 'application_status';
 
     protected $fillable = [
-        'application_id', 'status', 'reason', 'department_id', 'updated_by' ,'rank'
+        'application_id',
+        'department_id',
+        'status',
+        'reason',
+        'created_by',
+        'updated_by',
+        'rank',
+        'person_name',  // Add this field
     ];
-
     public function application()
     {
         return $this->belongsTo(Application::class);
