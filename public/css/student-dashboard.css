@@ -141,13 +141,13 @@ body {
   width: auto; /* Adjust width */
   display: block;
   margin-left: auto; /* Align right */
-  margin-bottom: 0;
+  margin-bottom: 10;
 }
 
 .btn-primary:hover {
   background-color: #56d80a;
   cursor: pointer;
-  margin-bottom: 0;
+  margin-bottom: 10;
 }
 
 .btn-primary:disabled {
@@ -155,6 +155,43 @@ body {
   cursor: not-allowed;
   margin-bottom: 0;
 }
+
+/* Download Button Styles */
+.downloadButton {
+  background-color: #47fa00;
+  border: none;
+  padding: 10px 37px;
+  font-size: 1.1rem;
+  text-decoration: none;
+  font-weight: 600;
+  color: #ffffff;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  width: auto; /* Adjust width */
+  margin-left: auto; /* Align right */
+  margin-bottom: 0;
+}
+
+.downloadButton:hover {
+  background-color: #56d80a; /* Darker green on hover */
+  cursor: pointer;
+}
+
+.downloadButtonDisable {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  margin-bottom: 0;
+  border: none;
+  padding: 10px 32px;
+  font-size: 1.1rem;
+  text-decoration: none;
+  font-weight: 600;
+  color: #ffffff;
+  border-radius: 8px;
+  width: auto; /* Adjust width */
+  margin-left: auto;
+}
+
 
 /* Success Message Styling */
 .alert-success {
@@ -203,7 +240,6 @@ body {
 .status-pending {
   color: #ffc107;
   font-weight: bold;
-  border-radius: 20px;
 }
 
 .status-rejected {
