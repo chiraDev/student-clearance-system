@@ -130,7 +130,7 @@
         }
 
         .sidebar .nav-link.logout-btn{
-            margin-top: 300px;
+            /* margin-top: 200px; */
             margin-bottom: 0;
         }
 
@@ -174,12 +174,45 @@
     <!-- Sidebar with Buttons and Links --> 
     <div class="sidebar">
         <ul>
-            <li><b class="depName">Management</b></li>
+            <li>
+                <b class="depName">{{ auth()->user()->department->dep_name }}</b>
+            </li>
             <hr>
-            <li><a href="/page1" class="nav-link">Clearance</a></li>
-            <li><a href="/page2" class="nav-link">Outstanding Payments</a></li>
-            <li><a href="/page3" class="nav-link logout-btn">Logout</a></li>
-        </ul>
+            
+
+        @auth
+                @php
+                    $dep_id = Auth::user()->dep_id;
+                @endphp
+                @if($dep_id == 1)
+                    {{-- <li><a class="nav-button" href="{{ route('student.dashboard') }}">
+                    Dashboard
+                    </a>
+                </li> --}}
+                @elseif(in_array($dep_id, [3,4, 5,  6, 7, 8,  9, 10, 11, 15, 14, 13, 16 , 17 , 18, 19, 20, 21, 22, 23, 24, 25,]))
+                    <li>
+                        <a class="nav-button" href="{{ route('Clearance.list', ['departmentId' => auth()->user()->dep_id]) }}">
+                        <i class="fas fa-cogs"></i> Clearance
+                    </a>
+                </li>
+                    @if($dep_id != 3)
+                        <li>
+                            <a class="nav-button" href="{{ route('ranks.create') }}">
+                            <i class="fas fa-user-plus"></i> Add Staff
+                        </a>
+                        </li>
+                    @endif
+                @endif
+
+                <li><a class="nav-link logout-btn" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fas fa-sign-out-alt"></i> Log Out
+                </a>
+            </li>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+            </ul>
+            @endauth
 
     </div>
 

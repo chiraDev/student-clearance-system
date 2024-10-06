@@ -1,4 +1,4 @@
-@extends('layouts.app') <!-- Assuming you have a layout file -->
+@extends('layouts.management') <!-- Assuming you have a layout file -->
 
 @section('title', 'Add Person')
 
@@ -44,12 +44,7 @@
      /* Makes the container take full viewport height */
 }
 
-    h1 {
-        text-align: center;
-        font-weight: bold;
-        margin-bottom: 30px;
-        color: #4a4a4a;
-    }
+    
 
     .form-group {
         margin-bottom: 20px;

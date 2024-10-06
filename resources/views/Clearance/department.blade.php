@@ -1,11 +1,11 @@
-@extends('components.sidebar.sidebar')
+@extends('layouts.management')
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/custome-style.css') }}">
 <div class="container">
 
     <!-- Department Header -->
-    <h1 class="department-title">{{ auth()->user()->department->dep_name }} Department</h1>
+    <h1 class="department-title">{{ auth()->user()->department->dep_name }}</h1>
     <h2 class="total-requests">Total Requests: {{ $totalRequests }}</h2>
 
     <!-- Isolated Dropdown for Selecting Person -->
@@ -57,7 +57,7 @@
 
                     @if (!$isEnlistment || ($isEnlistment && $status->allOthersApproved))
                     <form action="{{ route('Clearance.update', ['departmentId' => auth()->user()->dep_id, 'statusId' => $status->id]) }}" method="POST" onsubmit="return setPersonNameBeforeSubmit('{{ $status->id }}')">
-                         @csrf
+                        @csrf
                             @method('PUT')
                             <input type="hidden" name="status" value="APPROVED">
 

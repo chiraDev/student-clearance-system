@@ -96,12 +96,12 @@ Route::post('/users/send-activation-emails', [UserController::class, 'sendActiva
         return view('management.sods.sods');
     })->name('sods.sods');
     
-    Route::get('/ocus/dashboard', function() {
-        return view('management.ocus.ocus');
-    })->name('ocus.ocus');
+    Route::get('/hq/dashboard', function() {
+        return view('management.hq.hq');
+    })->name('hq.hq');
     
-    Route::get('/log/dashboard', function() {
-        return view('management.logOfficer.log');
+    Route::get('/itDiv/dashboard', function() {
+        return view('management.itDiv.itDiv');
     })->name('it-division');
     
     Route::get('/accsec/dashboard', function() {

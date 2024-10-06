@@ -9,7 +9,7 @@
 
 @extends('layouts.Management')
 
-@section('title', 'Help Desk')
+@section('title', 'IT Division')
 
 @section('content')
 <style>
@@ -41,7 +41,7 @@
 </style>
 
 <div class="container">
-    <div class="welcome-overlay">Welcome to the Help Desk</div>
+    <div class="welcome-overlay">Welcome to the IT Division</div>
 </div>
 
 @endsection

@@ -8,7 +8,7 @@
 
 </head>
 
-@extends('layouts.app')
+@extends('layouts.student')
 
 @section('title', 'Student Dashboard')
 
@@ -22,12 +22,12 @@
                 {{ session('success') }}
             </div>
         @endif
-        <form method="POST" action="{{ route('logout') }}">
+        {{-- <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" class="btn btn-danger">
                 Logout
             </button>
-        </form>
+        </form> --}}
         <div class="card">
             <div class="card-header">Clearance Application</div>
             <div class="card-body">

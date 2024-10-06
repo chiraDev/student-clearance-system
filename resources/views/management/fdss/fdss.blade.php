@@ -1,5 +1,4 @@
 <head>
-    <link rel="stylesheet" href="{{ asset('css/student-dashboard.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
@@ -52,34 +51,8 @@
             100% { opacity: 1; }
         }
 
-        .cta-button {
-            display: inline-block;
-            margin: 20px 0;
-            padding: 10px 20px;
-            font-size: 1.2rem;
-            color: #fff;
-            background: #007bff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+        
 
-        .cta-button:hover {
-            background-color: #0056b3;
-        }
-
-        a.logout-link {
-            color: #ffffff;
-            text-decoration: none;
-            margin-top: 20px;
-            display: block;
-            transition: color 0.3s ease;
-        }
-
-        a.logout-link:hover {
-            color: #ff4d4d;
-        }
 
         .container {
     width: calc(100vw - var(--sidebar-width));
@@ -94,16 +67,6 @@
     transition: width 0.3s ease;
 }
 
-/* Header Styling */
-h1 {
-    font-size: 2em;
-    color: #003366;
-    text-align: center;
-    margin-bottom: 10px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    font-weight: bold;
-}
 
 /* Card Styling */
 .card {
