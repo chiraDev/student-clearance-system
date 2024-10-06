@@ -147,7 +147,7 @@ Route::get('/management/dashboard', [StudentDashboardController::class, 'managem
 
 // Route::get('/student/download-clearance-pdf', [StudentDashboardController::class, 'downloadClearancePDF'])
 //     ->name('student.downloadClearancePDF');
-
+Route::get('/clearance-graph', [ClearanceReportController::class, 'showClearanceGraph'])->name('clearance.graph');
 Route::get('/status-chart', [ClearanceReportController::class, 'index'])->name('status.chart');
 Route::get('/duration-chart', [ClearanceReportController::class, 'duration'])->name('duration.chart');
 Route::get('/user-profile', [ClearanceReportController::class, 'show'])->name('user.profile');
