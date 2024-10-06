@@ -1,13 +1,20 @@
-@extends('components.sidebar.sidebar')
+<head>
+    <link rel="stylesheet" href="{{ asset('css/student-dashboard.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
+
+</head>
+
+@extends('layouts.Management')
+
+@section('title', 'FDSS')
 
 @section('content')
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to the FDSS Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        body, html {
+<style>
+        /* body, html {
             margin: 0;
             padding: 0;
             height: 100%;
@@ -18,7 +25,7 @@
             background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
             color: #fff;
             overflow: hidden;
-        }
+        } */
         .container {
             text-align: center;
             max-width: 900px;
@@ -73,26 +80,8 @@
         a.logout-link:hover {
             color: #ff4d4d;
         }
-    </style>
-</head>
-<div class="container">
 
-    <!-- Welcome Overlay -->
-    <div class="welcome-overlay">Welcome to the FDSS KDU</div>
-</div>
-    <!-- Logout Link -->
-   
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-        @csrf
-    </form>
-
-    <!-- Add more content here if needed -->
-
-</div>
-
-<style>
-/* Container Styling */
-.container {
+        .container {
     width: calc(100vw - var(--sidebar-width));
     height: 100vh;
     min-height: 100vh;
@@ -201,5 +190,14 @@ h1 {
     background: #b3c7ff;
     cursor: not-allowed;
 }
-</style>
+    </style>
+</head>
+<div class="container">
+
+    <!-- Welcome Overlay -->
+    <div class="welcome-overlay">Welcome to the FDSS KDU</div>
+</div>
+
+
+</div>
 @endsection

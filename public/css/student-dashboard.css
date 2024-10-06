@@ -83,35 +83,46 @@ body {
 }
 
 /* Card Header Styling */
-.card-header {
-  background-color: #6699ff;
+/* .card-header{
+  background-color: #0055ff;
   color: #ffffff;
   padding: 20px;
   font-size: 1.5rem;
   font-weight: 600;
   text-align: center;
   border-radius: 12px 12px 0 0;
+} */
+
+.card .card-header {
+  background-color: var(--mainColor) !important;
+  color: #ffffff !important;
+  padding: 15px !important;
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+  border-radius: 12px 12px 0 0;
 }
 
 /* Card Body Styling */
 .card-body {
-  padding-top: 20px;
+  padding-top: 30px !important;
   padding-left: 20px;
   padding-right: 30px;
-  padding-bottom: 10px;
+  padding-bottom: 10px!important;
 }
 
 /* Form Group Styling */
 .form-group {
   margin-bottom: 25px;
+  font-weight: bold;
 }
 
 .form-group label {
   font-size: 1.1rem;
   color: #333333;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
   display: block;
-  font-weight: 500;
+  font-weight: 500 !important;
 }
 
 .form-control {
@@ -130,72 +141,75 @@ body {
 
 /* Button Styling */
 .btn-primary {
-  background-color: #47fa00;
+  background-color: #47fa00 !important;
   border: none;
-  padding: 12px 25px;
-  font-size: 1.1rem;
-  font-weight: 600;
+  padding: 10px 25px !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
   color: #ffffff;
-  border-radius: 8px;
-  transition: background-color 0.3s ease;
-  width: auto; /* Adjust width */
-  display: block;
-  margin-left: auto; /* Align right */
-  margin-bottom: 10;
+  border-radius: 8px !important;
+  transition: background-color 0.3s ease !important;
+  width: auto !important; /* Adjust width */
+  display: block !important;
+  margin-left: auto !important; /* Align right */
+  margin-bottom: 18px!important;
 }
 
 .btn-primary:hover {
-  background-color: #56d80a;
-  cursor: pointer;
-  margin-bottom: 10;
+  background-color: #56d80a !important;
+  cursor: pointer !important;
+  margin-bottom: 18px !important;
 }
 
 .btn-primary:disabled {
-  background-color: #6c757d;
-  cursor: not-allowed;
-  margin-bottom: 0;
+  background-color: #6c757d !important;
+  cursor: not-allowed !important;
+  margin-bottom: 18px !important;
+  border-color: #6c757d !important;
 }
 
 /* Download Button Styles */
 .downloadButton {
-  background-color: #47fa00;
+  background-color: #47fa00 !important;
   border: none;
-  padding: 10px 37px;
-  font-size: 1.1rem;
+  padding: 12px 33px !important;
+  font-size: 1.1rem !important;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 600 !important;
   color: #ffffff;
-  border-radius: 8px;
-  transition: background-color 0.3s ease;
-  width: auto; /* Adjust width */
-  margin-left: auto; /* Align right */
-  margin-bottom: 0;
+  border-radius: 8px !important;
+  transition: background-color 0.3s ease !important;
+  width: auto !important; /* Adjust width */
+  margin-left: auto !important; /* Align right */
+  margin-bottom: 0!important;
+  margin-top: 10px !important;
 }
 
 .downloadButton:hover {
-  background-color: #56d80a; /* Darker green on hover */
+  background-color: #56d80a !important; /* Darker green on hover */
   cursor: pointer;
 }
 
 .downloadButtonDisable {
-  background-color: #6c757d;
-  cursor: not-allowed;
+  background-color: #6c757d !important;
+  cursor: not-allowed !important;
   margin-bottom: 0;
+  margin-top: 0px !important;
   border: none;
-  padding: 10px 32px;
-  font-size: 1.1rem;
+  padding: 10px 33px !important;
+  font-size: 1.1rem !important;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 600 !important;
   color: #ffffff;
   border-radius: 8px;
-  width: auto; /* Adjust width */
+  width: auto !important; /* Adjust width */
   margin-left: auto;
 }
 
 
 /* Success Message Styling */
 .alert-success {
-  background: #a1f87f;
+  background: #a1f87f ;
   color: #3c763d;
   border: 1px solid #3c763d;
   border-radius: 8px;

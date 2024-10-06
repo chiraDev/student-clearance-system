@@ -1,4 +1,4 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
 @section('title', 'Student Dashboard')
 
@@ -9,4 +9,4 @@
     <div class="main-content">
         @yield('dashboard-content')
     </div>
-@endsection
+@endsection --}}

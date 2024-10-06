@@ -8,16 +8,13 @@
 
 </head>
 
-@extends('layouts.student')
+@extends('layouts.app')
 
-<div class="navbar-container">
-    @include('components.nav') <!-- Include the navbar here -->
-    
-</div>
+@section('title', 'Student Dashboard')
 
 @section('content')
 
-<h1 class="dashboard-title">Student Dashboard</h1>
+{{-- <h1 class="dashboard-title">Student Dashboard</h1> --}}
     <div> <!-- The main container -->
         
         @if (session('success'))
@@ -57,7 +54,7 @@
                         <button type="submit" class="btn btn-primary" id="submitButton" {{ $application ? 'disabled' : '' }}>
                             {{ $application ? 'Application Submitted' : 'Submit Clearance Form' }}
                         </button>
-                        <br>
+                        
                             @if ($allApproved) <!-- Condition to check if all departments have approved -->
                                 <a href="{{ route('student.downloadClearancePDF') }}" class="downloadButton" id="downloadButton">
                                     Download Clearance
@@ -109,13 +106,13 @@
             </div>
         </div>
     @endif
-@endsection
-
-<script>
+    
+    <script>
     function disableSubmitButton(form) {
         form.querySelector('#submitButton').disabled = true;
         form.querySelector('#submitButton').textContent = 'Submitting...';
     }
 </script>
 
+@endsection
 
