@@ -15,7 +15,7 @@ use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\ApplicationStatusController;
 use App\Http\Controllers\RankController;
 
-
+use App\Http\Controllers\PaymentController;
 
 
 Route::get('/', function () {
@@ -167,3 +167,7 @@ Route::get('/user', [DepartmentController::class, 'show'])->name('departments.pr
 Route::put('/userp/{id}', [DepartmentController::class, 'update'])->name('user.updateinfo');
 
 Route::get('/application/{id}/statuses', 'App\Http\Controllers\ShowmoreapplicationStatusController@show')->name('applications.statuses');
+
+
+
+Route::post('/payments', [PaymentController::class, 'store'])->name('payments.store');
