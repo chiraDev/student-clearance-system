@@ -38,10 +38,16 @@ class LoginController extends Controller
     protected function redirectBasedOnRole($user)
     {
         // Redirect for super admin
+        
+            
         if ($user->is_super_admin) {
-            return redirect()->route('users.import-form');
+            if ($user->user_name === 'SuperAdmin') {
+                return redirect()->route('clearance.graph'); // Replace with the actual route name for SuperAdmin
+            } else {
+                return redirect()->route('users.import-form');
         }
-
+            }
+     
 
         // Redirect for management users
         if ($user->is_management) {

@@ -70,15 +70,22 @@ Route::middleware('auth')->group(function () {
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-Route::get('im', [UserController::class, 'importForm'])->name('users.import-form');
-Route::post('im', [UserController::class, 'import'])->name('users.import');
-Route::post('/users/send-activation-emails', [UserController::class, 'sendActivationEmails'])->name('users.send-activation-emails');
 
-// Route::middleware(['role:superadmin'])->group(function () {
-//     Route::get('im', [UserController::class, 'importForm'])->name('users.import-form');
-//     // Add the clearance.graph route here if it's also for super admins
-//     Route::get('clearance/graph', [ClearanceReportController::class, 'showClearanceGraph'])->name('clearance.graph');
-// });
+
+Route::middleware(['role:superadmin'])->group(function () {
+    Route::get('im', [UserController::class, 'importForm'])->name('users.import-form');
+    Route::post('im', [UserController::class, 'import'])->name('users.import');
+    Route::post('/users/send-activation-emails', [UserController::class, 'sendActivationEmails'])->name('users.send-activation-emails');
+    
+    Route::get('/clearance-graph', [ClearanceReportController::class, 'showClearanceGraph'])->name('clearance.graph');
+    Route::get('/status-chart', [ClearanceReportController::class, 'index'])->name('status.chart');
+    Route::get('/duration-chart', [ClearanceReportController::class, 'duration'])->name('duration.chart');
+    Route::get('/user-profile', [ClearanceReportController::class, 'show'])->name('user.profile');
+    Route::put('/user/{id}', [ClearanceReportController::class, 'update'])->name('user.update');
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+    
+});
 
 
  Route::middleware(['auth', 'role:management'])->group(function () {
@@ -147,12 +154,6 @@ Route::get('/management/dashboard', [StudentDashboardController::class, 'managem
 
 // Route::get('/student/download-clearance-pdf', [StudentDashboardController::class, 'downloadClearancePDF'])
 //     ->name('student.downloadClearancePDF');
-Route::get('/clearance-graph', [ClearanceReportController::class, 'showClearanceGraph'])->name('clearance.graph');
-Route::get('/status-chart', [ClearanceReportController::class, 'index'])->name('status.chart');
-Route::get('/duration-chart', [ClearanceReportController::class, 'duration'])->name('duration.chart');
-Route::get('/user-profile', [ClearanceReportController::class, 'show'])->name('user.profile');
-Route::put('/user/{id}', [ClearanceReportController::class, 'update'])->name('user.update');
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/manage', [DepartmentController::class, 'index'])->name('departments.manage');
 Route::post('/store', [DepartmentController::class, 'store'])->name('departments.store');
