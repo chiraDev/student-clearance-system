@@ -35,23 +35,18 @@ class LoginController extends Controller
     }
 
     // Redirect users based on their roles
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
     protected function redirectBasedOnRole($user)
     {
         // Redirect for super admin
-        
-            
         if ($user->is_super_admin) {
             if ($user->user_name === 'SuperAdmin') {
-                return redirect()->route('clearance.graph'); // Replace with the actual route name for SuperAdmin
+                return redirect()->route('clearance.graph'); // Replace with the actual route for SuperAdmin
             } else {
-                return redirect()->route('users.import-form');
-        }
+                return redirect()->route('users.import-form'); // Replace with the actual route for other super admins
             }
-     
+        }
 
-        // Redirect for management users
+        // Redirect for management users (your provided code)
         if ($user->is_management) {
             switch ($user->dep_id) {
                 case 3:
@@ -91,9 +86,9 @@ class LoginController extends Controller
                 case 10:
                     return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
                 case 11:
-                        return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-                 case 12:
-                         return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
+                    return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
+                case 12:
+                    return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
                 case 13:
                     return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
                 case 14:
@@ -102,7 +97,6 @@ class LoginController extends Controller
                     return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
                 case 16:
                     return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-
                 default:
                     Auth::logout();
                     return redirect()->route('login')->withErrors(['email' => 'Unauthorized access.']);
@@ -117,100 +111,7 @@ class LoginController extends Controller
         // Logout and redirect to login for unauthorized access
         Auth::logout();
         return redirect()->route('login')->withErrors(['email' => 'Unauthorized access.']);
-=======
-// Redirect users based on their roles
-protected function redirectBasedOnRole($user)
-{
-    // Redirect for super admin
-    if ($user->is_super_admin) {
-        if ($user->user_name === 'SuperAdmin') {
-            return redirect()->route('superadmin.dashboard'); // Replace with the actual route name for SuperAdmin
-        } else {
-            return redirect()->route('admin.dashboard'); // Replace with the route for other super admins
-        }
->>>>>>> Stashed changes
-=======
-// Redirect users based on their roles
-protected function redirectBasedOnRole($user)
-{
-    // Redirect for super admin
-    if ($user->is_super_admin) {
-        if ($user->user_name === 'SuperAdmin') {
-            return redirect()->route('superadmin.dashboard'); // Replace with the actual route name for SuperAdmin
-        } else {
-            return redirect()->route('admin.dashboard'); // Replace with the route for other super admins
-        }
->>>>>>> Stashed changes
     }
-
-    // Redirect for management users
-    if ($user->is_management) {
-        switch ($user->dep_id) {
-            case 3:
-                return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-            case 31:
-                return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-            case 32:
-                return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-            case 33:
-                return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-            case 34:
-                return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-            case 35:
-                return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-            case 36:
-                return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-            case 37:
-                return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-            case 38:
-                return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-            case 39:
-                return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-            case 40:
-                return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-            case 4:
-                return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-            case 5:
-                return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-            case 6:
-                return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-            case 7:
-                return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-            case 8:
-                return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-            case 9:
-                return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-            case 10:
-                return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-            case 11:
-                    return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-             case 12:
-                     return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-            case 13:
-                return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-            case 14:
-                return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-            case 15:
-                return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-            case 16:
-                return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-
-            default:
-                Auth::logout();
-                return redirect()->route('login')->withErrors(['email' => 'Unauthorized access.']);
-        }
-    }
-
-    // Redirect for student users
-    if ($user->is_student) {
-        return redirect()->route('student.dashboard');
-    }
-
-    // Logout and redirect to login for unauthorized access
-    Auth::logout();
-    return redirect()->route('login')->withErrors(['email' => 'Unauthorized access.']);
-}
-
 
     // Handle logout
     public function logout(Request $request)
