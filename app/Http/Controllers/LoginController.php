@@ -36,6 +36,7 @@ class LoginController extends Controller
 
     // Redirect users based on their roles
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     protected function redirectBasedOnRole($user)
     {
         // Redirect for super admin
@@ -116,6 +117,18 @@ class LoginController extends Controller
         // Logout and redirect to login for unauthorized access
         Auth::logout();
         return redirect()->route('login')->withErrors(['email' => 'Unauthorized access.']);
+=======
+// Redirect users based on their roles
+protected function redirectBasedOnRole($user)
+{
+    // Redirect for super admin
+    if ($user->is_super_admin) {
+        if ($user->user_name === 'SuperAdmin') {
+            return redirect()->route('superadmin.dashboard'); // Replace with the actual route name for SuperAdmin
+        } else {
+            return redirect()->route('admin.dashboard'); // Replace with the route for other super admins
+        }
+>>>>>>> Stashed changes
 =======
 // Redirect users based on their roles
 protected function redirectBasedOnRole($user)
