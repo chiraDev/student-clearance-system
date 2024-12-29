@@ -32,9 +32,16 @@ class LoginController extends Controller
     protected function redirectBasedOnRole($user)
     {
         if ($user->is_super_admin) {
-            return redirect()->route('users.import-form');
+            if ($user->user_name === 'SuperAdmin') {
+                return redirect()->route('clearance.graph'); // Replace with the actual route for SuperAdmin
+            } else {
+                return redirect()->route('users.import-form'); // Replace with the actual route for other super admins
+            }
         }
+
+
         if ($user->is_management) {
+
             switch ($user->dep_id) {
                 case 4:
                     return redirect()->route('ocus.ocus'); 
@@ -89,6 +96,7 @@ class LoginController extends Controller
                     return redirect()->route('login')->withErrors(['email' => 'Unauthorized access.']);
             }
         }
+        
 
         if ($user->is_student) {
             return redirect()->route('student.dashboard');

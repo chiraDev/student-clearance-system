@@ -76,10 +76,11 @@ class UsersImport
                 ['student_reg_no' => $row['A']],
                 [
                     'user_id' => $user->id,
-                    'tel_no' => $row['H'],
+                    'tel_no' => $row['E'],
                     'faculty_id' => $row['D'],
                     'student_type' => 'DAYSCHOLAR',
-                    'kdu_id' => $row['I'],
+                    'kdu_id' => $row['F'],
+                    'nic' => $row['G'],
                     'created_by' => 1,
                     'updated_by' => 1
                 ]
