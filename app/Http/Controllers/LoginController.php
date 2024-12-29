@@ -47,7 +47,7 @@ class LoginController extends Controller
         }
 
         // Redirect for management users (your provided code)
-        if ($user->is_management) {
+           if ($user->is_management) {
             switch ($user->dep_id) {
                 case 3:
                     return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
@@ -86,9 +86,9 @@ class LoginController extends Controller
                 case 10:
                     return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
                 case 11:
-                    return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
-                case 12:
-                    return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
+                        return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
+                 case 12:
+                         return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
                 case 13:
                     return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
                 case 14:
@@ -97,11 +97,13 @@ class LoginController extends Controller
                     return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
                 case 16:
                     return redirect()->route('Clearance.list', ['departmentId' => $user->dep_id]);
+
                 default:
                     Auth::logout();
                     return redirect()->route('login')->withErrors(['email' => 'Unauthorized access.']);
             }
         }
+        
 
         // Redirect for student users
         if ($user->is_student) {
