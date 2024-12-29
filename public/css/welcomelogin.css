@@ -9,17 +9,19 @@ body {
 }
 
 .center-container {
-  display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  margin-top: 30px;
+  display: flex !important;
+  justify-content: center !important; /* Center horizontally */
+  align-items: center !important; /* Center vertically */
+  margin-top: 10px !important;
   font-family: var(--text);
-  min-height: 70vh;
+  min-height: 70vh !important;
+  min-width: 1000px !important;
+  align-content: center !important;
+
 }
 
 .form-wrapper {
-  width: 100%;
-  max-width: 350px;
+  min-width: 420px !important;
   padding: 2rem;
   background-color: #ffffff; /* Bright white background */
   border-radius: 20px; /* Softer rounded corners */
@@ -87,8 +89,8 @@ input[type="password"]:focus {
 
 .side-image {
   margin-top: 0;
-  margin-left: 80px;
-  margin-right: 0;
+  margin-left: 150px;
+  margin-right: 80px;
   max-width: 550px; /* Ensure image scales properly */
   height: auto; /* Maintain aspect ratio */
 }

@@ -8,16 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Rank extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'department_id',
         'rank_name',
         'person_name',
+        'service_number', // Add service number to fillable fields
     ];
 
-    // Define the relationship with the Department model
     public function department()
     {
         return $this->belongsTo(Department::class);
     }
-
 }

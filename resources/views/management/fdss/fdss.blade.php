@@ -1,13 +1,19 @@
-@extends('components.sidebar.sidebar')
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
+
+</head>
+
+@extends('layouts.Management')
+
+@section('title', 'FDSS')
 
 @section('content')
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to the HQ Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        body, html {
+<style>
+        /* body, html {
             margin: 0;
             padding: 0;
             height: 100%;
@@ -18,7 +24,7 @@
             background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
             color: #fff;
             overflow: hidden;
-        }
+        } */
         .container {
             text-align: center;
             max-width: 900px;
@@ -45,61 +51,10 @@
             100% { opacity: 1; }
         }
 
-        .cta-button {
-            display: inline-block;
-            margin: 20px 0;
-            padding: 10px 20px;
-            font-size: 1.2rem;
-            color: #fff;
-            background: #007bff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .cta-button:hover {
-            background-color: #0056b3;
-        }
-
-        a.logout-link {
-            color: #ffffff;
-            text-decoration: none;
-            margin-top: 20px;
-            display: block;
-            transition: color 0.3s ease;
-        }
-
-        a.logout-link:hover {
-            color: #ff4d4d;
-        }
-    </style>
-<title>HeadQuartes</title>
-</head>
-<div class="container">
-
-    <!-- Welcome Overlay -->
-    <!-- <div class="welcome-overlay">Welcome to the Head Quartes Dashboard</div> -->
-</div>
-    <!-- Logout Link -->
-    <a href="{{ route('logout') }}" 
-        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-        Logout
-    </a>
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-        @csrf
-    </form>
-
-    <!-- Add more content here if needed -->
-
-</div>
+        
 
 
-
-
-<style> 
-/* Container Styling */
-.container {
+        .container {
     width: calc(100vw - var(--sidebar-width));
     height: 100vh;
     min-height: 100vh;
@@ -112,16 +67,6 @@
     transition: width 0.3s ease;
 }
 
-/* Header Styling */
-h1 {
-    font-size: 2em;
-    color: #003366;
-    text-align: center;
-    margin-bottom: 10px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    font-weight: bold;
-}
 
 /* Card Styling */
 .card {
@@ -208,42 +153,14 @@ h1 {
     background: #b3c7ff;
     cursor: not-allowed;
 }
+    </style>
+</head>
+<div class="container">
+
+    <!-- Welcome Overlay -->
+    <div class="welcome-overlay">Welcome to the FDSS KDU</div>
+</div>
 
 
-
-
-
-/* Ensure the body and html take up the full viewport height */
-html, body {
-    height: 100%;
-    margin: 0;
-    overflow: hidden;
-}
-
-
-
-
-
-/* Welcome Overlay Styling */
-.welcome-overlay {
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 51, 102, 0.7); /* Semi-transparent background color */
-    color: white;
-    padding: 10px 20px;
-    font-size: 1.5em;
-    font-weight: bold;
-    text-align: center;
-    border-radius: 8px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-</style>
-
+</div>
 @endsection
-
-
-

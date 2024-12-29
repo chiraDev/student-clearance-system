@@ -49,7 +49,7 @@ Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('
 
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
-Route::post('/logout', [LoginController::class, 'login']);
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 //////////////////////////////////////////////
 
 Route::middleware(['auth', 'role:student'])->group(function () {
@@ -66,8 +66,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/student/dashboard', [StudentDashboardController::class, 'index'])->name('student.dashboard');
     Route::post('/student/submit-clearance-form', [StudentDashboardController::class, 'submitClearanceForm'])->name('student.submitClearanceForm');
 });
-
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -105,12 +103,12 @@ Route::middleware(['role:superadmin'])->group(function () {
         return view('management.sods.sods');
     })->name('sods.sods');
     
-    Route::get('/ocus/dashboard', function() {
-        return view('management.ocus.ocus');
-    })->name('ocus.ocus');
+    Route::get('/hq/dashboard', function() {
+        return view('management.hq.hq');
+    })->name('hq.hq');
     
-    Route::get('/log/dashboard', function() {
-        return view('management.logOfficer.log');
+    Route::get('/itDiv/dashboard', function() {
+        return view('management.itDiv.itDiv');
     })->name('it-division');
     
     Route::get('/accsec/dashboard', function() {
@@ -136,6 +134,10 @@ Route::middleware(['role:superadmin'])->group(function () {
     Route::get('/publication/tso', function() {
         return view('management.tso.tso');
     })->name('tso.tso'); 
+
+    Route::get('/fdss/fdss', function() {
+        return view('management.fdss.fdss');
+    })->name('fdss.fdss');
     
  });
 
@@ -163,5 +165,6 @@ Route::get('/search', [DepartmentController::class, 'search'])->name('department
 Route::get('/add', [DepartmentController::class, 'showAddStaffForm'])->name('departments.add.form');
 Route::post('/add', [DepartmentController::class, 'addStaff'])->name('departments.add');
 Route::get('/user', [DepartmentController::class, 'show'])->name('departments.profile');
-
 Route::put('/userp/{id}', [DepartmentController::class, 'update'])->name('user.updateinfo');
+
+Route::get('/application/{id}/statuses', 'App\Http\Controllers\ShowmoreapplicationStatusController@show')->name('applications.statuses');
