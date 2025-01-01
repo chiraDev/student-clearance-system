@@ -168,3 +168,17 @@ Route::get('/user', [DepartmentController::class, 'show'])->name('departments.pr
 Route::put('/userp/{id}', [DepartmentController::class, 'update'])->name('user.updateinfo');
 
 Route::get('/application/{id}/statuses', 'App\Http\Controllers\ShowmoreapplicationStatusController@show')->name('applications.statuses');
+
+Route::post('/clearance/{departmentId}/status/{statusId}/generate-pdf', [ClearanceController::class, 'generatePdf'])
+->name('Clearance.generatePdf');
+
+
+Route::group(['middleware' => ['auth']], function () {
+    // Route for viewing Hostel PDF
+    Route::get('clearance/pdf/hostel/{applicationId}', [ClearanceController::class, 'viewHostelPdf'])
+        ->name('clearance.pdf.hostel');
+
+    // Route for viewing Library PDF
+    Route::get('clearance/pdf/library/{applicationId}', [ClearanceController::class, 'viewLibraryPdf'])
+        ->name('clearance.pdf.library');
+});

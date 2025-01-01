@@ -80,8 +80,15 @@ $allApproved = collect($departmentStatuses)->every(function ($status) {
 
         // Validate the request data (Add validation rules as needed)
         $request->validate([
+            'bank' => 'required|string|max:255',
+            'account_number' => 'required|string|max:255|confirmed',
             // Add your validation rules here
         ]);
+
+        // Update bank and account number in the StudentInfo table
+        $studentInfo->bank = $request->bank; // Save Bank Name
+        $studentInfo->account_number = $request->account_number; // Save Account Number
+        $studentInfo->save();
 
         // Check if an application already exists for the student
         if (Application::where('student_id', $studentInfo->id)->exists()) {
@@ -95,6 +102,7 @@ $allApproved = collect($departmentStatuses)->every(function ($status) {
         $application->application_status = 'PENDING'; // Default status
         $application->created_by = $user->id;
         $application->updated_by = $user->id;
+        
         $application->save();
 
         // Retrieve the student's faculty ID

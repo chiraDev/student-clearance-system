@@ -1,83 +1,116 @@
-/* Typography and Spacing */
-.department-title {
-  font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  color: #2c3e50;
-  margin-bottom: 1.5rem;
-  font-size: 2rem;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  text-align: center;
-}
-
-.total-requests {
-  font-size: 1.5rem;
-  color: #7f8c8d;
-  margin-bottom: 2rem;
-  text-align: center;
-  font-weight: 500;
-}
 
 .container {
-  padding: 1rem; /* Decrease padding for reduced height */
+  /*padding: 1rem;  Decrease padding for reduced height */
+  margin-top:70px; /* Create enough space to push the content below the sticky header */
   max-width: 90%; /* Decrease container size */
-  margin: 0 auto;
+  margin: 1 auto;
+  max-height: calc(100vh - 150px); /* Ensure container height fits the viewport */
   height: auto; /* Allow container height to adjust dynamically */
 }
 
-/* Filter and Search Section */
-.filter-search-section {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e0e0e0 100%);
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2.5rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
-}
-
-.filter-search-section .form-group {
-  margin-bottom: 0;
-}
-
-.filter-search-section .form-check {
-  margin-right: 1rem;
+/* Sticky Header */
+.sticky-header {
+  position: fixed; /* Keep the header fixed in place */
+  top: 110px; /* Adjust based on the actual header position */
+  height: 70px;
+  left: 253px;
+  width: 90%; /* Full width of the container */
+  background-color: #f8f9fa; /* Matches the header background */
+  z-index: 1000; /* Ensures it's above the content */
+  padding: 1rem;
+  border-bottom: 1px solid #ddd; /* Adds a bottom border for separation */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for a raised effect */
+  text-align: left; /* Align content to the left for consistency */
   display: flex;
+  justify-content: space-evenly; /* Spread the elements evenly */
   align-items: center;
 }
 
-.filter-search-section .form-check-label {
-  margin-left: 0.5rem;
-}
 
-.filter-search-section button,
-.filter-search-section a {
-  padding: 0.75rem 1.5rem;
-  border-radius: 50px;
-  font-size: 0.9rem;
-  font-weight: 600;
-}
-
-/* List Layout */
-.application-list {
-  border-radius: 10px;
-  border: 1px solid #1e00ff; /* Light blue border */
-  display: flex;
-  flex-direction: column; /* Stack items vertically */
-  gap: 1.5rem;
-  padding: 0;
+/* Department Title */
+.department-title {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2c3e50;
   margin: 0;
 }
 
+/* Total Requests */
+.total-requests {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #3498db;
+  margin: 0;
+}
+
+/* Filter Container */
+.filter-container {
+  display: flex;
+  align-items: center;
+  gap: 2rem; /* Spacing between items */
+}
+
+/* Filter Checkboxes */
+.filter-container label {
+  font-size: 0.9rem;
+  color: #34495e;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Search Input */
+.search-input {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  width: 200px;
+}
+/* Submit Button */
+.submit-button {
+  padding: 0.5rem 1rem;
+  background-color: #ababab; /* Match Total Requests color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #7a7a7b; /* Slightly darker shade on hover */
+}
+
+
+/* List Layout */
+.scrollable-panel {
+    max-height: 400px; /* Adjust the height as needed */
+    overflow-y: auto; /* Enable vertical scrolling */
+    border: 1px solid #ddd; /* Optional: Add a border for clarity */
+    border-radius: 10px; /* Optional: Rounded corners */
+    padding: 1rem; /* Add padding for better spacing */
+    background-color: #f9f9f9; /* Optional: Light background color */
+}
+
+.application-list {
+    margin: 0;
+    padding: 0;
+    list-style: none; /* Remove default list styling */
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    gap: 1rem; /* Add spacing between items */
+}
+
 .application-item {
-  background-color: #ffffff;
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  width: 100%; /* Ensure each item takes full width */
+    /* Existing styling */
+    padding: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .application-item:hover {
@@ -102,20 +135,17 @@
 .status-badge {
   font-size: 0.9rem;
   font-weight: 600;
-  padding: 0.4rem 0.8rem;
-  border-radius: 12px;
+  
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
 .status-approved {
-  background-color: #27ae60;
-  color: #ffffff;
+  color: #27ae60;
 }
 
 .status-rejected {
-  background-color: #c0392b;
-  color: #ffffff;
+  color: #c0392b;
 }
 
 /* Application Details */
@@ -238,6 +268,25 @@
   background-color: #b0b0b0; /* Darker gray on hover */
 }
 
+.application-details {
+  display: flex;
+  flex-wrap: wrap; /* Wraps items to the next line if space is insufficient */
+  /* gap: 0.1rem; Adds spacing between items */
+  align-items: center; /* Vertically centers the content */
+}
+
+.detail-item {
+  flex: 1 1 20%; /* Each item takes up 20% of the row width by default */
+  font-size: 0.9rem;
+  color: #34495e;
+  min-width: 150px; /* Minimum width to avoid overly narrow items */
+}
+
+.detail-item strong {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .form-group {
@@ -261,60 +310,73 @@
 /* Buttons */
 /* Buttons */
 .button-group {
-  margin-top: 1.5rem;
   display: flex;
-  justify-content: space-between;
-  gap: 0.75rem; /* Space between buttons */
+  justify-content: space-between; /* Space between PDF and Approval/Decline Buttons */
+  align-items: center;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.pdf-view-buttons {
+  display: flex;
+  gap: 0.5rem; /* Space between PDF buttons */
+}
+.pdf-view-buttons .btn {
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  background-color: #a4a4a4;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+.pdf-view-buttons .btn:hover {
+  background-color: #6c6c6c;
+}
+.button-group form,
+.button-group button,
+.button-group a {
+  margin: 0; /* Ensure no extra margin is added */
 }
 
-/* Buttons */
-.button-group {
-  margin-top: 1.5rem;
-  display: flex;
-  gap: 0.5rem; /* Reduce the gap between buttons */
-}
-
-.button-group .btn {
-  width: 100px; /* Consistent width */
-  height: 40px; /* Consistent height */
-  padding: 0.75rem; /* Consistent padding */
-  border-radius: 25px;
-  font-weight: 600;
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: bold;
   text-transform: uppercase;
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
-  text-align: center;
-  font-size: 0.675rem; /* Decreased font size */
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
-
+.approval-buttons {
+  display: flex;
+  gap: 0.5rem; /* Space between Approve and Decline buttons */
+}
 .btn-approve {
-  background-color: #2f00ff; /* Blue color */
-  color: #ffffff;
+  background-color: #588ee4;
+  color: white;
 }
 
 .btn-approve:hover {
-  background-color: #2980b9; /* Slightly darker blue */
+  background-color: #4776c2;
 }
 
 .btn-decline {
-  background-color: #eb081f; /* Red color */
-  color: #ffffff;
+  background-color: #e74c3c;
+  color: white;
 }
 
 .btn-decline:hover {
-  background-color: #c62828; /* Darker red */
+  background-color: #c0392b;
 }
 
 .btn-show-more {
-  background-color: #11a301; /* Green color */
-  color: #ffffff;
+  background-color: #3498db;
+  color: white;
 }
 
 .btn-show-more:hover {
-  background-color: #27ae60; /* Slightly darker green */
+  background-color: #2980b9;
 }
 
 /* Ensures the form elements are aligned correctly */

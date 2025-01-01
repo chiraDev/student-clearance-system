@@ -13,7 +13,8 @@ class StudentInfo extends Model
 
     protected $fillable = [
         'user_id', 'student_reg_no', 'faculty_id', 'tel_no',
-        'student_type', 'kdu_id','nic', 'created_by', 'updated_by'
+    'student_type', 'kdu_id', 'created_by', 'updated_by',
+    'bank', 'account_number', 'NIC'
     ];
 
     public function user()

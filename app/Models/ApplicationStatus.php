@@ -16,10 +16,10 @@ class ApplicationStatus extends Model
         'department_id',
         'status',
         'reason',
+        'pdf_path',    // Add this line
+        'pdf_reason',  // Add this line
         'created_by',
         'updated_by',
-        'rank',
-        'person_name',  // Add this field
     ];
     public function application()
     {
@@ -46,5 +46,9 @@ class ApplicationStatus extends Model
     public function applicationStatus()
     {
         return $this->hasMany(ApplicationStatus::class);
+    }
+    public function studentInfo()
+    {
+        return $this->hasOne(StudentInfo::class, 'student_id', 'user_id'); // Adjust column names as per your DB schema
     }
 }

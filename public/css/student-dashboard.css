@@ -304,3 +304,41 @@ body {
   background-color: #6c757d; /* Gray for Hidden */
   color: #ffffff;
 }
+/* Flexbox Container */
+.form-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Align items to the top */
+  gap: 20px; /* Space between columns */
+}
+
+/* Left Column Styling */
+.left-column {
+  flex: 1; /* Take up remaining space */
+}
+
+/* Right Column Styling */
+.right-column {
+  flex: 1; /* Take up remaining space */
+}
+
+/* Input Field Styling */
+.right-column .form-group {
+  margin-bottom: 15px;
+}
+
+.right-column .form-control {
+  width: 100%; /* Ensure inputs take up full width */
+  box-sizing: border-box; /* Include padding and border in width */
+}
+input[readonly] {
+  background-color: #e9ecef; /* Light gray background */
+  cursor: not-allowed; /* Indicate that editing is not allowed */
+}
+
+@media (max-width: 768px) {
+  .form-container {
+      flex-direction: column;
+      gap: 10px;
+  }
+}

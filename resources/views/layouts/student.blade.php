@@ -163,6 +163,7 @@
         <ul>
             <li><b class="depName">Student Dashboard</b></li>
             <hr>
+            <li><a href="/student/dashboard" class="nav-link">Application</a></li>
             <li><a href="/page2" class="nav-link">Outstanding Payments</a></li>
 
             <li><a class="nav-link logout-btn" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
