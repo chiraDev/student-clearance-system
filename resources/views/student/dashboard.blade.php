@@ -41,22 +41,47 @@ use Illuminate\Support\Facades\Route;
             <form method="POST" action="{{ route('student.submitClearanceForm') }}"
                 onsubmit="disableSubmitButton(this)">
                 @csrf
-
+                <div class="form-container">
+            <!-- Existing Elements -->
+            <div class="left-column">
                 <div class="form-group">
                     <span class="user-name-label">{{ $user->user_name }}</span>
                 </div>
-
                 <div class="form-group">
                     <span class="form-value">{{ $studentInfo->student_reg_no }}</span>
                 </div>
-
                 <div class="form-group">
                     <span class="form-value">{{ $studentInfo->faculty->faculty_name }}</span>
                 </div>
-
                 <div class="form-group">
                     <span class="form-value">{{ ucwords(strtolower($studentInfo->student_type)) }}</span>
                 </div>
+            </div>
+            <!-- Input Fields -->
+            <div class="right-column">
+                <div class="form-group">
+                    <label for="bank">Bank Name</label>
+                    <input type="text" id="bank" name="bank" class="form-control" 
+                        value="{{ old('bank', $studentInfo->bank) }}" 
+                        placeholder="Enter your bank name" 
+                        {{ $application ? 'readonly' : '' }} required>
+                </div>
+                <div class="form-group">
+                    <label for="account_number">Account Number</label>
+                    <input type="text" id="account_number" name="account_number" class="form-control" 
+                        value="{{ old('account_number', $studentInfo->account_number) }}" 
+                        placeholder="Enter your account number" 
+                        {{ $application ? 'readonly' : '' }} required>
+                </div>
+                <div class="form-group">
+                    <label for="account_number_confirmation">Confirm Account Number</label>
+                    <input type="text" id="account_number_confirmation" name="account_number_confirmation" class="form-control" 
+                        placeholder="Re-enter your account number" 
+                        {{ $application ? 'readonly' : '' }} required>
+                </div>
+            </div>
+            </div>
+        </div>
 
                 <div class="button-container">
                     <button type="submit" class="btn btn-primary" id="submitButton"
@@ -154,6 +179,7 @@ use Illuminate\Support\Facades\Route;
                                     </button>
                                 </div>
                             </form>
+
                             @elseif($status->receipt_path)
                             <a href="{{ Storage::url($status->receipt_path) }}" target="_blank">
                                 <i class="fas fa-file-upload"></i> View Receipt
@@ -222,6 +248,31 @@ use Illuminate\Support\Facades\Route;
         document.getElementById('closeModal').addEventListener('click', function() {
             modal.style.display = 'none';
             modalIframe.src = ''; // Clear the iframe
+        });
+    });
+
+    function validateAccountNumbers() {
+        const accountNumber = document.getElementById('account_number').value;
+        const confirmationNumber = document.getElementById('account_number_confirmation').value;
+        if (accountNumber !== confirmationNumber) {
+            alert('Account numbers do not match. Please check and re-enter.');
+            return false; // Prevent form submission
+        }
+        return true; // Allow form submission if validation passes
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        const confirmationField = document.getElementById('account_number_confirmation');
+        confirmationField.addEventListener('paste', (event) => {
+            event.preventDefault(); // Disable pasting
+            alert('Pasting is not allowed in the confirmation field.');
+        });
+        confirmationField.addEventListener('copy', (event) => {
+            event.preventDefault(); // Disable copying
+            alert('Copying is not allowed.');
+        });
+        confirmationField.addEventListener('cut', (event) => {
+            event.preventDefault(); // Disable cutting
+            alert('Cutting is not allowed.');
         });
     });
     </script>
