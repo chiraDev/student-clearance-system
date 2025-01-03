@@ -182,3 +182,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('clearance/pdf/library/{applicationId}', [ClearanceController::class, 'viewLibraryPdf'])
         ->name('clearance.pdf.library');
 });
+Route::post('/student/upload-receipt', [StudentDashboardController::class, 'uploadReceipt'])
+    ->name('student.uploadReceipt')
+    ->middleware('auth');
+
+    Route::get('/clearance/receipts/{applicationId}', [ClearanceController::class, 'getReceipts'])
+    ->name('Clearance.getReceipts')
+    ->middleware('auth');

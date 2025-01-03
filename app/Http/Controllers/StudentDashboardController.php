@@ -2,17 +2,20 @@
 
 
 namespace App\Http\Controllers;
+use id;
 use App\Models\User; 
-use Barryvdh\DomPDF\Facade\Pdf;
 
 use App\Models\Application;
 use App\Models\StudentInfo;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\ApplicationStatus;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
 
@@ -80,15 +83,8 @@ $allApproved = collect($departmentStatuses)->every(function ($status) {
 
         // Validate the request data (Add validation rules as needed)
         $request->validate([
-            'bank' => 'required|string|max:255',
-            'account_number' => 'required|string|max:255|confirmed',
             // Add your validation rules here
         ]);
-
-        // Update bank and account number in the StudentInfo table
-        $studentInfo->bank = $request->bank; // Save Bank Name
-        $studentInfo->account_number = $request->account_number; // Save Account Number
-        $studentInfo->save();
 
         // Check if an application already exists for the student
         if (Application::where('student_id', $studentInfo->id)->exists()) {
@@ -102,7 +98,6 @@ $allApproved = collect($departmentStatuses)->every(function ($status) {
         $application->application_status = 'PENDING'; // Default status
         $application->created_by = $user->id;
         $application->updated_by = $user->id;
-        
         $application->save();
 
         // Retrieve the student's faculty ID
@@ -173,4 +168,82 @@ $allApproved = collect($departmentStatuses)->every(function ($status) {
          // Return the generated PDF for download
          return $pdf->download('clearance_form.pdf');
      }
+
+     public function uploadReceipt(Request $request)
+     {
+         $request->validate([
+             'department_id' => 'required|exists:departments,id',
+             'receipt' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048', // Restrict file types and size
+         ]);
+     
+         $user = Auth::user();
+     
+         // Check if user is authenticated
+         if (!$user) {
+             Log::warning('Unauthenticated user attempted to upload a receipt.');
+             return back()->withErrors('User not authenticated.');
+         }
+     
+         // Retrieve the student's information
+         $studentInfo = StudentInfo::where('user_id', $user->id)->first();
+     
+         if (!$studentInfo) {
+             Log::error('StudentInfo not found for user.', ['user_id' => $user->id]);
+             return back()->withErrors('Student information not found.');
+         }
+     
+         // Check if the user has an associated application
+         $application = Application::where('student_id', $studentInfo->id)->first();
+     
+         if (!$application) {
+             Log::error('Application not found for student.', ['student_id' => $studentInfo->id]);
+             return back()->withErrors('No associated application found for the user.');
+         }
+     
+         $departmentId = $request->input('department_id');
+         $file = $request->file('receipt');
+     
+         // Ensure the department is associated with the application
+         $applicationStatus = ApplicationStatus::where('department_id', $departmentId)
+             ->where('application_id', $application->id)
+             ->first();
+     
+         if (!$applicationStatus) {
+             Log::error('ApplicationStatus not found.', [
+                 'department_id' => $departmentId,
+                 'application_id' => $application->id,
+                 'user_id' => $user->id,
+             ]);
+             return back()->withErrors('Application status not found for the specified department.');
+         }
+     
+         // Handle existing receipt (optional: allow replacement)
+         if ($applicationStatus->receipt_path) {
+             // Optionally delete the old receipt
+             Storage::disk('public')->delete($applicationStatus->receipt_path);
+         }
+     
+         // Save the receipt with a unique name
+         try {
+             $filename = 'receipt_' . $application->id . '' . $departmentId . '' . time() . '.' . $file->getClientOriginalExtension();
+             $path = $file->storeAs('receipts', $filename, 'public');
+         } catch (\Exception $e) {
+             Log::error('Failed to store receipt.', ['error' => $e->getMessage()]);
+             return back()->withErrors('Failed to upload the receipt. Please try again.');
+         }
+     
+         // Update the application_status record with the receipt path
+         $applicationStatus->receipt_path = $path;
+         $applicationStatus->updated_by = $user->id;
+     
+         try {
+             $applicationStatus->save();
+         } catch (\Exception $e) {
+             Log::error('Failed to save ApplicationStatus.', ['error' => $e->getMessage()]);
+             return back()->withErrors('Failed to update application status. Please try again.');
+         }
+     
+         return back()->with('success', 'Receipt uploaded successfully.');
+     }
+     
 }

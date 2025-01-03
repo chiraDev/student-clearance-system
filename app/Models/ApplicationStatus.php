@@ -20,6 +20,7 @@ class ApplicationStatus extends Model
         'pdf_reason',  // Add this line
         'created_by',
         'updated_by',
+        'receipt_path',
     ];
     public function application()
     {

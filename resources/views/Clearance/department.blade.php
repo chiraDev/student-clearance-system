@@ -15,7 +15,7 @@
             <label><input type="checkbox" name="approved_requests" id="approvedRequests"> Approved Requests</label>
             <label><input type="checkbox" name="rejected_requests" id="rejectedRequests"> Rejected Requests</label>
             <input type="text" class="search-input" placeholder="Search by Reg No" id="searchRegNo">
-            <button class="submit-button" id="filterSubmit">Filter</button>
+            
         </div>
     </div>
 
@@ -39,6 +39,7 @@
                 <div class="application-details">
                     <div class="detail-item"><strong>Reg. No:</strong> {{ $status->application->user->reg_no }}</div>
                     <div class="detail-item"><strong>Name:</strong> {{ $status->application->user->user_name }}</div>
+                    <div class="detail-item"><strong>Faculty:</strong> {{ $status->application->user->studentInfo->faculties->faculty_name ?? 'N/A' }}</div>
                     <div class="detail-item"><strong>Tel. No:</strong> {{ $status->application->user->studentInfo->tel_no ?? 'N/A' }}</div>
                     <div class="detail-item"><strong>Bank</strong> {{ $status->application->user->studentInfo->bank ?? 'N/A' }}</div>
                     <div class="detail-item"><strong>Bank Acc No:</strong> {{ $status->application->user->studentInfo->account_number ?? 'N/A' }}</div>
@@ -82,9 +83,29 @@
                         </div>
                         @endif
                         <button type="button" class="btn btn-decline" onclick="declineApplication('{{ $status->id }}')">Decline</button>
-                    @endif
+                    <!-- New Receipt Button -->
+                <div class="receipt-buttons" style="margin-top: 10px;">
+                    <button type="button" class="btn btn-receipt"
+                        onclick="seeReceipt('{{ $status->application_id }}')">See Receipt</button>
                 </div>
-            
+                        @endif
+                    
+                </div>
+            <!-- Receipt Modal -->
+            <div id="receiptModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal('receiptModal')">&times;</span>
+                        <h2>Library Receipt</h2>
+                        <div id="libraryReceiptContainer">
+                            <!-- Library Receipt will be loaded here -->
+                        </div>
+                        <h2>Hostel Receipt</h2>
+                        <div id="hostelReceiptContainer">
+                            <!-- Hostel Receipt will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Show More Button -->
                     @php
                     $hideShowMoreButton = in_array(auth()->user()->dep_id, [3,31,32,33,34,35,36,37,38,39,40, 4, 5, 6, 7, 9,
@@ -107,10 +128,11 @@
 
     
     <script>
-       document.addEventListener('DOMContentLoaded', () => {
+      document.addEventListener('DOMContentLoaded', () => {
     const allRequestsCheckbox = document.getElementById('allRequests');
     const approvedRequestsCheckbox = document.getElementById('approvedRequests');
     const rejectedRequestsCheckbox = document.getElementById('rejectedRequests');
+    const searchInput = document.getElementById('searchRegNo');
     const applicationItems = document.querySelectorAll('.application-item');
 
     // Function to filter applications
@@ -118,17 +140,22 @@
         const showAll = allRequestsCheckbox.checked;
         const showApproved = approvedRequestsCheckbox.checked;
         const showRejected = rejectedRequestsCheckbox.checked;
+        const searchQuery = searchInput.value.trim().toLowerCase();
 
         applicationItems.forEach(item => {
             const statusBadge = item.querySelector('.status-badge');
+            const regNoElement = item.querySelector('.detail-item strong'); // Adjust selector for Reg. No field
             const status = statusBadge ? statusBadge.textContent.trim().toUpperCase() : null;
+            const regNo = regNoElement ? regNoElement.parentElement.textContent.trim().toLowerCase() : '';
 
             // Determine visibility
-            if (showAll) {
-                item.style.display = 'block';
-            } else if (showApproved && status === 'APPROVED') {
-                item.style.display = 'block';
-            } else if (showRejected && status === 'REJECTED') {
+            const matchesStatus =
+                (showAll) ||
+                (showApproved && status === 'APPROVED') ||
+                (showRejected && status === 'REJECTED');
+            const matchesSearch = !searchQuery || regNo.includes(searchQuery);
+
+            if (matchesStatus && matchesSearch) {
                 item.style.display = 'block';
             } else {
                 item.style.display = 'none';
@@ -136,7 +163,7 @@
         });
     }
 
-    // Event listeners for checkboxes
+    // Event listeners for checkboxes and search input
     allRequestsCheckbox.addEventListener('change', () => {
         if (allRequestsCheckbox.checked) {
             approvedRequestsCheckbox.checked = false;
@@ -159,9 +186,15 @@
         filterApplications();
     });
 
+    searchInput.addEventListener('input', () => {
+        filterApplications();
+    });
+
     // Initial filter to show all applications
     filterApplications();
 });
+
+
 
     ////////////////////////////////////////////    
     function declineApplication(statusId) {
@@ -291,7 +324,72 @@
         window.open(fileUrl, '_blank');
     }
 
+    function seeReceipt(applicationId) {
+    console.log("See Receipt button clicked for application ID:", applicationId);
 
+    // Make the fetch request to get receipt paths
+    fetch(`{{ route('Clearance.getReceipts', ['applicationId' => ':applicationId']) }}`.replace(':applicationId',
+            applicationId), {
+            method: 'GET',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Accept': 'application/json',
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(errData => {
+                    throw new Error(errData.message || `Network response was not ok (${response.status})`);
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Receipt data:', data);
+            if (data.success) {
+                const receipts = data.data; // Access 'data' object
+
+                // Load the receipts into the containers
+                if (receipts.library_receipt_path) {
+                    document.getElementById('libraryReceiptContainer').innerHTML =
+                        `<embed src="${receipts.library_receipt_url}" type="application/pdf" width="100%" height="500px" />`;
+                } else {
+                    document.getElementById('libraryReceiptContainer').innerHTML =
+                        `<p>No Library Receipt Available.</p>`;
+                }
+
+                if (receipts.hostel_receipt_path) {
+                    document.getElementById('hostelReceiptContainer').innerHTML =
+                        `<embed src="${receipts.hostel_receipt_url}" type="application/pdf" width="100%" height="500px" />`;
+                } else {
+                    document.getElementById('hostelReceiptContainer').innerHTML =
+                        `<p>No Hostel Receipt Available.</p>`;
+                }
+
+                // Display the modal
+                document.getElementById('receiptModal').style.display = 'block';
+            } else {
+                alert('Error: ' + (data.message || 'Unknown error occurred'));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred: ' + error.message);
+        });
+}
+
+
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
+
+// Close modal when clicking outside of the modal content
+window.onclick = function(event) {
+    const modal = document.getElementById('receiptModal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
     
     </script>
 
