@@ -84,12 +84,20 @@ $allApproved = collect($departmentStatuses)->every(function ($status) {
         // Validate the request data (Add validation rules as needed)
         $request->validate([
             // Add your validation rules here
+            'bank' => 'required|string|max:255',
+            'account_number' => 'required|string|max:255|confirmed',
         ]);
 
+        // Update bank and account number in the StudentInfo table
+        $studentInfo->bank = $request->bank; // Save Bank Name
+        $studentInfo->account_number = $request->account_number; // Save Account Number
+        $studentInfo->save();
+        
         // Check if an application already exists for the student
         if (Application::where('student_id', $studentInfo->id)->exists()) {
             return redirect()->route('student.dashboard')->with('error', 'You have already submitted a clearance application.');
         }
+        
 
         // Create a new application record
         $application = new Application();

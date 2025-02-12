@@ -27,12 +27,6 @@ class DepartmentsTableSeeder extends Seeder
                 'faculty_id' => null
             ],
             [
-                'dep_name' => 'Asistant Registrar',
-                'email' => null,
-                'parent_department' => null,
-                'faculty_id' => null
-            ],
-            [
                 'dep_name' => 'Head Quarters',
                 'email' => 'tharindumuramudali@gmail.com',
                 'parent_department' => null,
@@ -104,6 +98,13 @@ class DepartmentsTableSeeder extends Seeder
                 'parent_department' => null,
                 'faculty_id' => null
             ],
+            [
+                'dep_name' => 'Hostal',
+                'email' => 'tharindumuramudali@gmail.com',
+                'parent_department' => null,
+                'faculty_id' => null
+            ],
+
             ////////////////////////////////////////
             [
                 'dep_name' => 'AR_FDSS',

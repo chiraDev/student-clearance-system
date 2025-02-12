@@ -44,7 +44,7 @@ class LoginController extends Controller
 
             switch ($user->dep_id) {
                 case 4:
-                    return redirect()->route('ocus.ocus'); 
+                    return redirect()->route('hq.hq'); 
                 case 5:
                      return redirect()->route('it-division');
                 case 6:
@@ -67,29 +67,28 @@ class LoginController extends Controller
                     return redirect()->route('helpdesk.helpdesk');
                 case 15:
                     return redirect()->route('enlistment.enlistment');
-
-                case 3:   
-                    return redirect()->route('vc.vc');
                 case 16 :   
-                    return redirect()->route('vc.vc');
+                    return redirect()->route('hostal.hostal');
                 case 17:   
-                    return redirect()->route('vc.vc');
+                    return redirect()->route('ARFDSS.ARFDSS');
                 case 18:   
-                    return redirect()->route('vc.vc');
+                    return redirect()->route('ARFMSH.ARFMSH');
                 case 19:   
-                    return redirect()->route('vc.vc');
+                    return redirect()->route('ARFOM.ARFOM');
                 case 20:   
-                    return redirect()->route('vc.vc');
+                    return redirect()->route('ARFOE.ARFOE');
                 case 21:   
-                    return redirect()->route('vc.vc');
+                    return redirect()->route('ARFOL.ARFOL');
                 case 22:   
-                    return redirect()->route('vc.vc');
+                    return redirect()->route('ARFAHS.ARFAHS');
                 case 23:   
-                    return redirect()->route('vc.vc');
+                    return redirect()->route('ARFOC.arfoc');
                 case 24:   
-                    return redirect()->route('vc.vc');
+                    return redirect()->route('ARBAS.ARBAS');
                 case 25:   
-                    return redirect()->route('vc.vc');       
+                    return redirect()->route('ARFOT.ARFOT'); 
+                case 27:   
+                    return redirect()->route('ARFBESS.ARFBESS');        
     
                 default:
                     Auth::logout();

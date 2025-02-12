@@ -119,8 +119,9 @@ Route::middleware(['role:superadmin'])->group(function () {
         return view('management.library.library');
     })->name('library.library');
     
-    Route::get('/arfoc/dashboard', function() {
-        return view('management.arfoc.arfoc');
+    
+    Route::get('/logofficer/dashboard', function() {
+        return view('management.logofficer.log');
     })->name('logofficer.log');
 
     Route::get('/cadetmess/dashboard', function() {
@@ -138,6 +139,50 @@ Route::middleware(['role:superadmin'])->group(function () {
     Route::get('/fdss/fdss', function() {
         return view('management.fdss.fdss');
     })->name('fdss.fdss');
+
+    Route::get('/hostal/dashboard', function() {
+        return view('management.hostal.hostal');
+    })->name('hostal.hostal');
+
+
+    Route::get('/arfoc/dashboard', function() {
+        return view('management.ARFOC.arfoc');
+    })->name('ARFOC.arfoc');
+    Route::get('/ARFDSS/dashboard', function() {
+        return view('management.ARFDSS.ARFDSS');
+    })->name('ARFDSS.ARFDSS');
+
+    Route::get('/ARFMSH/dashboard', function() {
+        return view('management.ARFMSH.ARFMSH');
+    })->name('ARFMSH.ARFMSH');
+
+    Route::get('/ARFOM/dashboard', function() {
+        return view('management.ARFOM.ARFOM');
+    })->name('ARFOM.ARFOM');
+
+    Route::get('/ARFOE/dashboard', function() {
+        return view('management.ARFOE.ARFOE');
+    })->name('ARFOE.ARFOE');
+
+    Route::get('/ARFOL/dashboard', function() {
+        return view('management.ARFOL.ARFOL');
+    })->name('ARFOL.ARFOL');
+
+    Route::get('/ARFAHS/dashboard', function() {
+        return view('management.ARFAHS.ARFAHS');
+    })->name('ARFAHS.ARFAHS');
+
+    Route::get('/ARBAS/dashboard', function() {
+        return view('management.ARBAS.ARBAS');
+    })->name('ARBAS.ARBAS');
+
+    Route::get('/ARFOT/dashboard', function() {
+        return view('management.ARFOT.ARFOT');
+    })->name('ARFOT.ARFOT');
+
+    Route::get('/ARFBESS/dashboard', function() {
+        return view('management.ARFBESS.ARFBESS');
+    })->name('ARFBESS.ARFBESS');
     
  });
 

@@ -134,7 +134,7 @@ use Illuminate\Support\Facades\Route;
                             </span>
                         </td>
                         <td>{{ $status->reason }}</td>
-                        <td>{{ $status->person_name ?? 'N/A' }}</td>
+                        <td>{{ $status->updater->name ?? 'N/A' }}</td>
                         <td>{{ $status->rank ?? 'N/A' }}</td>
 
                         @if (in_array(strtolower($status->department->dep_name), ['library', 'hostal']))
@@ -165,9 +165,9 @@ use Illuminate\Support\Facades\Route;
                                 <iframe id="pdfIframe" style="width: 100%; height: 100%;" frameborder="0"></iframe>
                             </div>
                         </div>
-
+                    
                         <td>
-                            @if($status->status === 'PENDING' )
+                        @if($status->status === 'APPROVED' || $status->status === 'REJECTED')
                             <form method="POST" action="{{ route('student.uploadReceipt') }}"
                                 enctype="multipart/form-data">
                                 @csrf

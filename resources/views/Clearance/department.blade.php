@@ -2,25 +2,25 @@
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/custome-style.css') }}">
-    <div>
+<div>
 
     <!-- Sticky Department Header -->
     <div class="sticky-header">
-    <!-- <h1 class="department-title">{{ auth()->user()->department->dep_name }}</h1> -->
-    
+        <!-- <h1 class="department-title">{{ auth()->user()->department->dep_name }}</h1> -->
+
         <div class="filter-container">
-            
+
             <h2 class="total-requests">Total Requests: {{ $totalRequests }}</h2>
             <label><input type="checkbox" name="all_requests" id="allRequests" checked> All Requests</label>
             <label><input type="checkbox" name="approved_requests" id="approvedRequests"> Approved Requests</label>
             <label><input type="checkbox" name="rejected_requests" id="rejectedRequests"> Rejected Requests</label>
             <input type="text" class="search-input" placeholder="Search by Reg No" id="searchRegNo">
-            
+
         </div>
     </div>
 
     <!-- Scrollable Panel -->
-    <div class="container">   
+    <div class="container">
         <!-- Application List -->
         <ul class="application-list">
             @forelse($applicationStatuses as $status)
@@ -39,37 +39,50 @@
                 <div class="application-details">
                     <div class="detail-item"><strong>Reg. No:</strong> {{ $status->application->user->reg_no }}</div>
                     <div class="detail-item"><strong>Name:</strong> {{ $status->application->user->user_name }}</div>
-                    <div class="detail-item"><strong>Faculty:</strong> {{ $status->application->user->studentInfo->faculties->faculty_name ?? 'N/A' }}</div>
-                    <div class="detail-item"><strong>Tel. No:</strong> {{ $status->application->user->studentInfo->tel_no ?? 'N/A' }}</div>
-                    <div class="detail-item"><strong>Bank</strong> {{ $status->application->user->studentInfo->bank ?? 'N/A' }}</div>
-                    <div class="detail-item"><strong>Bank Acc No:</strong> {{ $status->application->user->studentInfo->account_number ?? 'N/A' }}</div>
+                    <!-- Display Faculty Name from the Faculty relationship -->
+                    <strong>Faculty:</strong> {{ $status->application->studentInfo->faculty->faculty_name ?? 'N/A' }}
+                    <div class="detail-item"><strong>Tel. No:</strong>
+                        {{ $status->application->user->studentInfo->tel_no ?? 'N/A' }}</div>
+                    <div class="detail-item"><strong>KDU ID:</strong>
+                        {{ $status->application->user->studentInfo->kdu_id ?? 'N/A' }}</div>
+                    <div class="detail-item"><strong>Bank</strong>
+                        {{ $status->application->user->studentInfo->bank ?? 'N/A' }}</div>
+                    <div class="detail-item"><strong>Bank Acc No:</strong>
+                        {{ $status->application->user->studentInfo->account_number ?? 'N/A' }}</div>
                     @if(auth()->user()->dep_id != 14)
-                        @if($status->status === 'REJECTED')
-                        <div class="detail-item"><strong>Reason:</strong> {{ $status->reason ?? 'N/A' }}</div>
-                        @endif
-                        <div class="detail-item"><strong>Status:</strong> {{ $status->status }}</div>
+                    @if($status->status === 'REJECTED')
+                    <div class="detail-item"><strong>Reason:</strong> {{ $status->reason ?? 'N/A' }}</div>
                     @endif
-                    <div class="detail-item"><strong>Last Updated:</strong> {{ $status->updated_at->format('Y-m-d H:i:s') }}</div>
+                    <div class="detail-item"><strong>Status:</strong> {{ $status->status }}</div>
+                    @endif
+                    <div class="detail-item"><strong>Last Updated:</strong>
+                        {{ $status->updated_at->format('Y-m-d H:i:s') }}</div>
                 </div>
 
                 <div class="button-group">
-                <!-- PDF View Buttons on the Left -->
-                <div class="pdf-view-buttons">
-                    @if(in_array(auth()->user()->dep_id, [12, 25]))
-                    <button type="button" class="btn btn-pdf" onclick="generatePdf('{{ $status->id }}')">Generate PDF</button>
-                    @endif
+                    <!-- PDF View Buttons on the Left -->
+                    <div class="pdf-view-buttons">
+                        @if(in_array(auth()->user()->dep_id, [12, 16]))
+                        <button type="button" class="btn btn-pdf" onclick="generatePdf('{{ $status->id }}')">Generate
+                            PDF</button>
+                        @endif
 
-                    @if(auth()->user()->dep_id == 13)
-                    <button type="button" class="btn btn-hostel-pdf" onclick="viewGeneratedPdf('{{ $status->application_id }}', 25)">View Hostel PDF</button>
-                    <button type="button" class="btn btn-library-pdf" onclick="viewGeneratedPdf('{{ $status->application_id }}', 12)">View Library PDF</button>
-                    @endif
-                </div>
+                        @if(auth()->user()->dep_id == 13)
+                        <button type="button" class="btn btn-hostel-pdf"
+                            onclick="viewGeneratedPdf('{{ $status->application_id }}', 25)">View Hostel PDF</button>
+                        <button type="button" class="btn btn-library-pdf"
+                            onclick="viewGeneratedPdf('{{ $status->application_id }}', 12)">View Library PDF</button>
+                        @endif
+                    </div>
 
-                <!-- Approval and Decline Buttons on the Right -->
-                <div class="approval-buttons">
-                    @if(auth()->user()->dep_id != 14)
-                        @if (!$isEnlistment || ($isEnlistment && $status->allOthersApproved))
-                        <form action="{{ route('Clearance.update', ['departmentId' => auth()->user()->dep_id, 'statusId' => $status->id]) }}" 
+                    <!-- Approval and Decline Buttons on the Right -->
+                    <div class="approval-buttons">
+                        @if(auth()->user()->dep_id == 15)
+                        <!-- For dep_id = 15: Show Approve and Decline Buttons -->
+                        @if ($isEnlistment || ($isEnlistment && $status->allOthersApproved))
+                        <!-- Approve Button (Enabled) -->
+                        <form
+                            action="{{ route('Clearance.update', ['departmentId' => auth()->user()->dep_id, 'statusId' => $status->id]) }}"
                             method="POST" onsubmit="return setPersonNameBeforeSubmit('{{ $status->id }}')">
                             @csrf
                             @method('PUT')
@@ -77,58 +90,92 @@
                             <button type="submit" class="btn btn-approve">Approve</button>
                         </form>
                         @else
+                        <!-- Approve Button (Disabled) -->
                         <div class="approval-container">
                             <button class="btn btn-approve" disabled>Approve</button>
-                            <small class="text-danger">Departments are not completed</small>
+                            <small class="text-danger">Other departments are not completed</small>
                         </div>
                         @endif
-                        <button type="button" class="btn btn-decline" onclick="declineApplication('{{ $status->id }}')">Decline</button>
-                    <!-- New Receipt Button -->
-                <div class="receipt-buttons" style="margin-top: 10px;">
-                    <button type="button" class="btn btn-receipt"
-                        onclick="seeReceipt('{{ $status->application_id }}')">See Receipt</button>
-                </div>
+
+                        <!-- Decline Button -->
+                        @if(!(auth()->user()->dep_id == 15))
+                        <button type="button" class="btn btn-decline"
+                            onclick="declineApplication('{{ $status->id }}')">Decline</button>
                         @endif
-                    
-                </div>
-            <!-- Receipt Modal -->
-            <div id="receiptModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close" onclick="closeModal('receiptModal')">&times;</span>
-                        <h2>Library Receipt</h2>
-                        <div id="libraryReceiptContainer">
-                            <!-- Library Receipt will be loaded here -->
+
+                        @else
+                        <!-- For Other Departments: Show Both Approve and Decline Buttons -->
+                        <form
+                            action="{{ route('Clearance.update', ['departmentId' => auth()->user()->dep_id, 'statusId' => $status->id]) }}"
+                            method="POST" onsubmit="return setPersonNameBeforeSubmit('{{ $status->id }}')">
+                            @csrf
+                            @method('PUT')
+                            <input type="hidden" name="status" value="APPROVED">
+                            <button type="submit" class="btn btn-approve">Approve</button>
+                        </form>
+                        <button type="button" class="btn btn-decline"
+                            onclick="declineApplication('{{ $status->id }}')">Decline</button>
+                        @endif
+
+                        <!-- Receipt Button (Only Visible for dep_id = 13) -->
+                        @if(auth()->user()->dep_id == 13)
+                        <div class="receipt-buttons" style="margin-top: 10px;">
+                            <button type="button" class="btn btn-receipt"
+                                onclick="seeReceipt('{{ $status->application_id }}')">See Receipt</button>
                         </div>
-                        <h2>Hostel Receipt</h2>
-                        <div id="hostelReceiptContainer">
-                            <!-- Hostel Receipt will be loaded here -->
+                        @endif
+                    </div>
+                        
+                       
+                    </div>
+                    <!-- Receipt Modal -->
+                    <div id="receiptModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="closeModal('receiptModal')">&times;</span>
+                            <h2>Library Receipt</h2>
+                            <div id="libraryReceiptContainer">
+                                <!-- Library Receipt will be loaded here -->
+                            </div>
+                            <h2>Hostel Receipt</h2>
+                            <div id="hostelReceiptContainer">
+                                <!-- Hostel Receipt will be loaded here -->
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Show More Button -->
-                    @php
-                    $hideShowMoreButton = in_array(auth()->user()->dep_id, [3,31,32,33,34,35,36,37,38,39,40, 4, 5, 6, 7, 9,
-                    10, 12, 13]);
-                    @endphp
-
-                    @if(!$hideShowMoreButton)
-                    <a href="{{ route('student.dashboard') }}" class="btn btn-show-more">Show More</a>
-                    @endif
-                </div>
-            </li>   
+            </li>
             @empty
             <li class="application-item">
                 <p class="text-center">No applications found.</p>
             </li>
             @endforelse
-    </ul>
+        </ul>
+    </div>
 </div>
-</div>
+<button class="btn btn-primary" onclick="getPDFReason()">Generate PDF</button>
 
-    
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
+    <!-- Modal Structure -->
+    <div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pdfModalLabel">PDF Reason</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="reasonText" class="text-muted"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button class="btn btn-success">Download PDF</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
     const allRequestsCheckbox = document.getElementById('allRequests');
     const approvedRequestsCheckbox = document.getElementById('approvedRequests');
     const rejectedRequestsCheckbox = document.getElementById('rejectedRequests');
@@ -144,9 +191,11 @@
 
         applicationItems.forEach(item => {
             const statusBadge = item.querySelector('.status-badge');
-            const regNoElement = item.querySelector('.detail-item strong'); // Adjust selector for Reg. No field
+            const regNoElement = item.querySelector(
+                '.detail-item strong'); // Adjust selector for Reg. No field
             const status = statusBadge ? statusBadge.textContent.trim().toUpperCase() : null;
-            const regNo = regNoElement ? regNoElement.parentElement.textContent.trim().toLowerCase() : '';
+            const regNo = regNoElement ? regNoElement.parentElement.textContent.trim().toLowerCase() :
+                '';
 
             // Determine visibility
             const matchesStatus =
@@ -196,135 +245,135 @@
 
 
 
-    ////////////////////////////////////////////    
-    function declineApplication(statusId) {
-        console.log("Decline button clicked for status ID:", statusId);
+////////////////////////////////////////////    
+function declineApplication(statusId) {
+    console.log("Decline button clicked for status ID:", statusId);
 
-        var csrfToken = document.querySelector('meta[name="csrf-token"]');
-        if (!csrfToken) {
-            alert("CSRF token not found. Please check your layout file.");
-            return;
-        }
-
-        // Prompt the user for the reason
-        var reason = prompt("Please enter the reason for declining:");
-        if (reason == null || reason.trim() === "") {
-            console.log("Decline action cancelled or no reason provided.");
-            return; // Exit if no reason provided
-        }
-
-        console.log("Reason provided:", reason);
-
-        // Prepare the data to send
-        var formData = new FormData();
-        formData.append('_token', csrfToken.getAttribute('content'));
-        formData.append('_method', 'PUT');
-        formData.append('status', 'REJECTED');
-        formData.append('reason', reason);
-
-        // Make the fetch request
-        fetch(`{{ route('Clearance.update', ['departmentId' => auth()->user()->dep_id, 'statusId' => ':statusId']) }}`
-                .replace(':statusId', statusId), {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken.getAttribute('content'),
-                        'Accept': 'application/json',
-                    }
-                })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(errData => {
-                        throw new Error(errData.message ||
-                            `Network response was not ok (${response.status})`);
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Response data:', data);
-                if (data.success) {
-                    alert(data.message);
-                    location.reload(); // Reload the page
-                } else {
-                    alert('Error: ' + (data.message || 'Unknown error occurred'));
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred: ' + error.message);
-            });
+    var csrfToken = document.querySelector('meta[name="csrf-token"]');
+    if (!csrfToken) {
+        alert("CSRF token not found. Please check your layout file.");
+        return;
     }
 
-    function generatePdf(statusId) {
-        console.log("Generate PDF button clicked for status ID:", statusId);
-
-        var csrfToken = document.querySelector('meta[name="csrf-token"]');
-        if (!csrfToken) {
-            alert("CSRF token not found. Please check your layout file.");
-            return;
-        }
-
-        // Prompt the user for additional information or reasons
-        var pdfReason = prompt("Please enter the reason or information for the PDF:");
-        if (pdfReason == null || pdfReason.trim() === "") {
-            console.log("PDF generation cancelled or no reason provided.");
-            return; // Exit if no reason provided
-        }
-
-        console.log("Reason provided for PDF:", pdfReason);
-
-        // Prepare the data to send
-        var formData = new FormData();
-        formData.append('_token', csrfToken.getAttribute('content'));
-        formData.append('pdf_reason', pdfReason);
-
-        // Make the fetch request
-        fetch(`{{ route('Clearance.generatePdf', ['departmentId' => auth()->user()->dep_id, 'statusId' => ':statusId']) }}`
-                .replace(':statusId', statusId), {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken.getAttribute('content'),
-                        'Accept': 'application/json',
-                    }
-                })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(errData => {
-                        throw new Error(errData.message ||
-                            `Network response was not ok (${response.status})`);
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Response data:', data);
-                if (data.success) {
-                    alert(data.message);
-                    // Optionally, provide a link to view the PDF
-                    // location.reload(); // Reload the page if needed
-                } else {
-                    alert('Error: ' + (data.message || 'Unknown error occurred'));
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred: ' + error.message);
-            });
+    // Prompt the user for the reason
+    var reason = prompt("Please enter the reason for declining:");
+    if (reason == null || reason.trim() === "") {
+        console.log("Decline action cancelled or no reason provided.");
+        return; // Exit if no reason provided
     }
 
-    function viewGeneratedPdf(applicationId, departmentId) {
-        console.log("View PDF button clicked for application ID:", applicationId, "and department ID:", departmentId);
+    console.log("Reason provided:", reason);
 
-        // Construct the correct file URL directly
-        const fileUrl = `/storage/pdfs/application_${applicationId}_${departmentId}.pdf`;
+    // Prepare the data to send
+    var formData = new FormData();
+    formData.append('_token', csrfToken.getAttribute('content'));
+    formData.append('_method', 'PUT');
+    formData.append('status', 'REJECTED');
+    formData.append('reason', reason);
 
-        // Open the file in a new tab
-        window.open(fileUrl, '_blank');
+    // Make the fetch request
+    fetch(`{{ route('Clearance.update', ['departmentId' => auth()->user()->dep_id, 'statusId' => ':statusId']) }}`
+            .replace(':statusId', statusId), {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken.getAttribute('content'),
+                    'Accept': 'application/json',
+                }
+            })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(errData => {
+                    throw new Error(errData.message ||
+                        `Network response was not ok (${response.status})`);
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Response data:', data);
+            if (data.success) {
+                alert(data.message);
+                location.reload(); // Reload the page
+            } else {
+                alert('Error: ' + (data.message || 'Unknown error occurred'));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred: ' + error.message);
+        });
+}
+
+function generatePdf(statusId) {
+    console.log("Generate PDF button clicked for status ID:", statusId);
+
+    var csrfToken = document.querySelector('meta[name="csrf-token"]');
+    if (!csrfToken) {
+        alert("CSRF token not found. Please check your layout file.");
+        return;
     }
 
-    function seeReceipt(applicationId) {
+    // Prompt the user for additional information or reasons
+    var pdfReason = prompt("Please enter the reason or information for the PDF:");
+    if (pdfReason == null || pdfReason.trim() === "") {
+        console.log("PDF generation cancelled or no reason provided.");
+        return; // Exit if no reason provided
+    }
+
+    console.log("Reason provided for PDF:", pdfReason);
+
+    // Prepare the data to send
+    var formData = new FormData();
+    formData.append('_token', csrfToken.getAttribute('content'));
+    formData.append('pdf_reason', pdfReason);
+
+    // Make the fetch request
+    fetch(`{{ route('Clearance.generatePdf', ['departmentId' => auth()->user()->dep_id, 'statusId' => ':statusId']) }}`
+            .replace(':statusId', statusId), {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken.getAttribute('content'),
+                    'Accept': 'application/json',
+                }
+            })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(errData => {
+                    throw new Error(errData.message ||
+                        `Network response was not ok (${response.status})`);
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Response data:', data);
+            if (data.success) {
+                alert(data.message);
+                // Optionally, provide a link to view the PDF
+                // location.reload(); // Reload the page if needed
+            } else {
+                alert('Error: ' + (data.message || 'Unknown error occurred'));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred: ' + error.message);
+        });
+}
+
+function viewGeneratedPdf(applicationId, departmentId) {
+    console.log("View PDF button clicked for application ID:", applicationId, "and department ID:", departmentId);
+
+    // Construct the correct file URL directly
+    const fileUrl = `/storage/pdfs/application_${applicationId}_${departmentId}.pdf`;
+
+    // Open the file in a new tab
+    window.open(fileUrl, '_blank');
+}
+
+function seeReceipt(applicationId) {
     console.log("See Receipt button clicked for application ID:", applicationId);
 
     // Make the fetch request to get receipt paths
@@ -390,8 +439,7 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 }
-    
-    </script>
+</script>
 
 </div>
 @endsection

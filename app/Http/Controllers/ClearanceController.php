@@ -154,14 +154,30 @@ class ClearanceController extends Controller
         return redirect()->back()->with('error', $message);
     }
     
+    // private function allOtherDepartmentsApproved($applicationId, $currentDepartmentId)
+    // {
+    //     $otherStatuses = ApplicationStatus::where('application_id', $applicationId)
+    //         ->where('department_id', '!=', $currentDepartmentId)
+    //         ->get();
+
+    //     return $otherStatuses->every(function ($status) {
+    //         return $status->status === 'APPROVED';
+    //     });
+    // }
     private function allOtherDepartmentsApproved($applicationId, $currentDepartmentId)
     {
         $otherStatuses = ApplicationStatus::where('application_id', $applicationId)
             ->where('department_id', '!=', $currentDepartmentId)
-            ->get();
-
-        return $otherStatuses->every(function ($status) {
-            return $status->status === 'APPROVED';
+            ->pluck('status'); // Only get 'status' values
+    
+        // If there are no other departments, we assume approval is fine (i.e., return true).
+        if ($otherStatuses->isEmpty()) {
+            return true;
+        }
+    
+        // Check if all other department statuses are 'APPROVED'
+        return !$otherStatuses->contains(function ($status) {
+            return $status !== 'APPROVED';
         });
     }
 
@@ -306,4 +322,6 @@ public function viewHostelPdf($applicationId)
             ], 500);
         }
     }
+
+    
 }
